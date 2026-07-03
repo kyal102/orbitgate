@@ -23,6 +23,8 @@ node_modules
 # misc
 .DS_Store
 *.pem
+__pycache__/
+*.py[cod]
 /db/*.db
 /db/*.db-journal
 /db/*.sqlite
