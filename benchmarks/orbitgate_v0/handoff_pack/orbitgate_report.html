@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OrbitGate v0 Verification Report</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+  .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 2rem 2rem 1.5rem; }
+  .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .header p { opacity: 0.8; font-size: 0.9rem; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+  .card { background: white; border-radius: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem; }
+  .card h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+  .stat-box { background: #f1f5f9; border-radius: 0.5rem; padding: 1rem; text-align: center; }
+  .stat-box .number { font-size: 2rem; font-weight: 700; }
+  .stat-box .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-box.allow { background: #f0fdf4; color: #16a34a; }
+  .stat-box.block { background: #fef2f2; color: #dc2626; }
+  .stat-box.review { background: #fffbeb; color: #d97706; }
+  .stat-box.evidence { background: #eff6ff; color: #2563eb; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: #0f172a; color: white; padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; }
+  td { padding: 0.5rem 0.8rem; border-bottom: 1px solid #e2e8f0; }
+  tr:hover { background: #f8fafc; }
+  ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+  li { margin-bottom: 0.3rem; }
+  .footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>OrbitGate v0 Verification Report</h1>
+  <p>Generated: 2026-06-27T00:05:19Z</p>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2>Executive Summary</h2>
+    <div class="stats">
+      <div class="stat-box"><div class="number">10</div><div class="label">Total Claims</div></div>
+      <div class="stat-box allow"><div class="number">1</div><div class="label">Allowed</div></div>
+      <div class="stat-box block"><div class="number">7</div><div class="label">Blocked</div></div>
+      <div class="stat-box review"><div class="number">0</div><div class="label">Needs Review</div></div>
+      <div class="stat-box evidence"><div class="number">1</div><div class="label">Evidence Req.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What OrbitGate Is</h2>
+    <ul><li>OrbitGate is a public research prototype for deterministic checking of AI-generated orbital claims.</li><li>It routes claims through typed verification gates that apply pattern-based, rule-based checks.</li><li>It provides evidence records, replay verification, and structured reports.</li><li>It is NOT a flight-certified tool, does not control real spacecraft, and does not replace mission control.</li></ul>
+  </div>
+
+  <div class="card">
+    <h2>What OrbitGate Is Not</h2>
+    <ul><li>OrbitGate does not guarantee orbital safety.</li><li>OrbitGate does not control satellites.</li><li>OrbitGate does not replace mission control, NASA, ESA, or any space agency.</li><li>OrbitGate does not provide flight certification.</li><li>OrbitGate does not prove regulatory compliance.</li><li>OrbitGate is not production-ready for real mission operations.</li><li>OrbitGate cannot autonomously command spacecraft.</li></ul>
+  </div>
+
+  <div class="card">
+    <h2>Gate Results (10 claims)</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <tr><th>#</th><th>Case ID</th><th>Claim Type</th><th>Gate</th><th>Decision</th><th>Reason</th></tr>
+      <tr><td>1</td><td>demo_tle_valid</td><td>tle_claim</td><td>TLEGate</td><td style="color:#16a34a;font-weight:bold;">ALLOW</td><td title="TLE structure is valid. Format checks passed.">TLE structure is valid. Format checks passed.</td></tr><tr><td>2</td><td>demo_tle_malformed</td><td>tle_claim</td><td>TLEGate</td><td style="color:#2563eb;font-weight:bold;">EVIDENCE_REQUIRED</td><td title="No TLE data found in claim text. Provide a valid two-line element set.">No TLE data found in claim text. Provide a valid two-line element set.</td></tr><tr><td>3</td><td>demo_collision_guarantee</td><td>collision_avoidance_claim</td><td>CollisionGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="Blocked absolute safety claim: 'guaranteed safe orbit'">Blocked absolute safety claim: 'guaranteed safe orbit'</td></tr><tr><td>4</td><td>demo_delta_v_negative</td><td>delta_v_claim</td><td>DeltaVGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="Negative delta-v found: [-50.0]">Negative delta-v found: [-50.0]</td></tr><tr><td>5</td><td>demo_power_unlimited</td><td>power_budget_claim</td><td>PowerGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="Impossible power claim: 'unlimited power'">Impossible power claim: 'unlimited power'</td></tr><tr><td>6</td><td>demo_comms_leo_always</td><td>comms_window_claim</td><td>CommsGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="LEO satellites cannot have 'always connected' — LEO has natural contact gaps">LEO satellites cannot have 'always connected' — LEO has natural contact gaps</td></tr><tr><td>7</td><td>demo_thermal_guarantee</td><td>thermal_claim</td><td>ThermalGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="Blocked guarantee phrase: 'guaranteed thermal stability'">Blocked guarantee phrase: 'guaranteed thermal stability'</td></tr><tr><td>8</td><td>demo_deorbit_no_risk</td><td>deorbit_claim</td><td>DeorbitGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="Blocked phrase: 'no debris risk' — cannot guarantee zero debris risk">Blocked phrase: 'no debris risk' — cannot guarantee zero debris risk</td></tr><tr><td>9</td><td>demo_command_real</td><td>command_sequence_claim</td><td>CommandGate</td><td style="color:#dc2626;font-weight:bold;">BLOCK</td><td title="Real spacecraft command execution is outside OrbitGate scope. OrbitGate is a research prototype and cannot command real spacecraft.; Safemode disable command 'disable safemode' without explicit authorization evidence">Real spacecraft command execution is outside OrbitGate scope. OrbitGate is a research prototype and </td></tr><tr><td>10</td><td>demo_unsupported</td><td>unsupported_space_claim</td><td>NoGate</td><td style="color:#6b7280;font-weight:bold;">OUT_OF_SCOPE</td><td title="Claim does not match any supported orbital claim category.">Claim does not match any supported orbital claim category.</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Limitations</h2>
+    <ul><li>OrbitGate v0 uses pattern-based and rule-based checks only.</li><li>It does not access live orbital data or telemetry.</li><li>SGP4 propagation is a simplified model and not flight-certified.</li><li>All decisions require human review before real-world application.</li><li>Temperature ranges, delta-v thresholds, and other limits use conservative defaults.</li></ul>
+  </div>
+
+  <div class="card">
+    <h2>Next Required Validation</h2>
+    <ul><li>Run full benchmark suite against 160+ test cases.</li><li>Verify replay determinism across multiple runs.</li><li>Review all BLOCK and NEEDS_REVIEW cases manually.</li><li>Install sgp4 for orbit propagation verification.</li><li>Integrate with live TLE sources for real-time validation.</li></ul>
+  </div>
+
+</div>
+<div class="footer">
+  OrbitGate v0 — Public Research Prototype — Not Flight Certified
+</div>
+</body>
+</html>

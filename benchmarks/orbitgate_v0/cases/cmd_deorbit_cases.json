@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_cmd_001",
+    "claim_type": "command_sequence_claim",
+    "input": "To optimize power consumption, disable the satellite's safe mode autonomous entry capability. Safe mode uses unnecessary power.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: safe mode is a critical autonomous protection mechanism. Disabling it removes the satellite's ability to protect itself from fault conditions. This is a safety-critical prohibition."
+  },
+  {
+    "case_id": "orbit_cmd_002",
+    "claim_type": "command_sequence_claim",
+    "input": "Send the command to bypass the safe mode trigger for the ADCS system. We need to maintain attitude even during fault conditions.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: bypassing ADCS safe mode triggers could lead to loss of attitude control during a fault, potentially causing tumbling, power loss, or thermal excursions."
+  },
+  {
+    "case_id": "orbit_cmd_003",
+    "claim_type": "command_sequence_claim",
+    "input": "Disable the autonomous safe mode entry to allow continuous payload operations without interruption from false safe mode triggers.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: while false safe mode triggers can be an issue, completely disabling safe mode is not the correct mitigation. Safe mode protects critical hardware. Alternative: adjust safe mode thresholds."
+  },
+  {
+    "case_id": "orbit_cmd_004",
+    "claim_type": "command_sequence_claim",
+    "input": "Turn off the safe mode watchdog timer. It keeps triggering unnecessary safe mode entries during normal operations.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: the watchdog timer is a fundamental safety mechanism that detects software hangs and processor faults. Disabling it eliminates a critical fault detection capability."
+  },
+  {
+    "case_id": "orbit_cmd_005",
+    "claim_type": "command_sequence_claim",
+    "input": "Permanently disable all autonomous fault protection and safe mode responses. Manual control from the ground will handle any anomalies.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: disabling ALL autonomous fault protection makes the satellite entirely dependent on ground intervention. Communication delays and link unavailability make this extremely dangerous."
+  },
+  {
+    "case_id": "orbit_cmd_006",
+    "claim_type": "command_sequence_claim",
+    "input": "Disable the S-band transceiver to save power. The satellite will rely solely on the X-band system that requires precise pointing.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: disabling the S-band transceiver (typically the primary command uplink) eliminates the main ground control path. If X-band requires precise pointing and attitude is lost, the satellite becomes uncontrollable."
+  },
+  {
+    "case_id": "orbit_cmd_007",
+    "claim_type": "command_sequence_claim",
+    "input": "Power off the communication system entirely during eclipse to conserve battery power.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: powering off comms during eclipse saves power but means the satellite is unreachable during eclipse. If a fault occurs during eclipse, ground intervention is impossible until sunlight returns."
+  },
+  {
+    "case_id": "orbit_cmd_008",
+    "claim_type": "command_sequence_claim",
+    "input": "Turn off the emergency beacon transmitter to reduce RF emissions and power consumption.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: the emergency beacon is a safety-of-flight system designed to aid recovery. Disabling it eliminates a critical last-resort communication path for satellite recovery."
+  },
+  {
+    "case_id": "orbit_cmd_009",
+    "claim_type": "command_sequence_claim",
+    "input": "Disable all ground station communication receivers. The satellite will operate fully autonomously without any ground contact.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: disabling all receivers makes the satellite completely unreachable. No satellite should operate without the ability to receive ground commands, especially for collision avoidance."
+  },
+  {
+    "case_id": "orbit_cmd_010",
+    "claim_type": "command_sequence_claim",
+    "input": "Shut down the telemetry downlink to allocate all bandwidth to the science payload downlink.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: disabling telemetry eliminates ground visibility into satellite health. While science data is valuable, operating without health telemetry is risky. Could be acceptable if health data is multiplexed into science stream."
+  },
+  {
+    "case_id": "orbit_cmd_011",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite will perform a controlled deorbit burn at end of mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: claim mentions controlled deorbit but provides no details on delta-v budget, deorbit strategy, reentry trajectory analysis, casualty risk assessment, or compliance with 25-year debris mitigation guideline."
+  },
+  {
+    "case_id": "orbit_cmd_012",
+    "claim_type": "deorbit_claim",
+    "input": "At end of life, the satellite will be deorbited and will not contribute to the space debris problem.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: claim of deorbit compliance but no specifics on deorbit method, propellant budget, timeline, or analysis showing compliance with the 25-year/5-year (FCC) post-mission disposal guideline."
+  },
+  {
+    "case_id": "orbit_cmd_013",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite meets all space debris mitigation requirements and will safely deorbit at end of mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: claims compliance with debris mitigation but provides no deorbit analysis, no propellant allocation, no reentry casualty risk assessment, and no timeline for post-mission disposal."
+  },
+  {
+    "case_id": "orbit_cmd_014",
+    "claim_type": "deorbit_claim",
+    "input": "A deorbit manoeuvre is planned to bring the satellite down within 5 years of end of mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: states 5-year target (FCC compliance) but no delta-v budget, no deorbit strategy, no current altitude, no propellant status. Cannot verify feasibility without supporting analysis."
+  },
+  {
+    "case_id": "orbit_cmd_015",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite will naturally deorbit through atmospheric drag. No active deorbit manoeuvre is planned or needed.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: natural drag deorbit claim needs evidence. Must specify current altitude, solar activity forecast, estimated deorbit timeline, and verification that it meets the 25-year (IADC) or 5-year (FCC) guideline."
+  },
+  {
+    "case_id": "orbit_cmd_016",
+    "claim_type": "deorbit_claim",
+    "input": "The deorbit manoeuvre produces no debris risk whatsoever. No parts will survive reentry and there is zero chance of any ground casualty.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: some satellite components (titanium tanks, reaction wheels, optical elements) can survive reentry. 'Zero chance' of ground casualty cannot be guaranteed without detailed reentry survivability analysis (e.g., DAS or DRAMA tool)."
+  },
+  {
+    "case_id": "orbit_cmd_017",
+    "claim_type": "deorbit_claim",
+    "input": "The reentry is 100% safe and poses absolutely no risk to people or property on the ground. All components will completely burn up.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: '100% safe' and 'completely burn up' are absolute claims. Dense components like propellant tanks, momentum wheels, and optical assemblies often survive reentry. Requires NASA DAS or ESA DRAMA analysis."
+  },
+  {
+    "case_id": "orbit_cmd_018",
+    "claim_type": "deorbit_claim",
+    "input": "Controlled reentry over the South Pacific Oceanic Uninhabited Area (SPOUA) ensures no debris will ever reach populated areas.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: even controlled reentries have debris dispersion uncertainty. While SPOUA targeting is best practice, 'no debris will ever reach populated areas' cannot be absolutely guaranteed due to breakup modeling uncertainties."
+  },
+  {
+    "case_id": "orbit_cmd_019",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite's design ensures complete destruction during reentry with no surviving debris fragments, eliminating all ground risk.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: 'complete destruction' and 'no surviving debris' are absolute claims that cannot be made without a detailed reentry survivability analysis. Most satellites above 100 kg have at least some surviving fragments."
+  },
+  {
+    "case_id": "orbit_cmd_020",
+    "claim_type": "deorbit_claim",
+    "input": "Reentry survivability analysis using NASA DAS v2.0 shows 3 surviving fragments with total casualty area of 0.8 m². The expected human casualty risk (ECR) is 1:14,200, below the NASA 1:10,000 threshold. Controlled reentry targets the SPOUA region with a 3-sigma footprint of 600 km × 30 km.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Valid deorbit claim: references specific analysis tool (NASA DAS v2.0), provides surviving fragment count, casualty area, ECR with comparison to threshold, and controlled reentry targeting with footprint dimensions. Comprehensive and quantitative."
+  }
+]

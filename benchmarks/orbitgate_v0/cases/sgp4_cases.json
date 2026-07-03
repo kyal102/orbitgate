@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_sgp4_001",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Using the SGP4 propagator with the provided ISS TLE (epoch 2024-01-01), the ISS position at 2024-01-02 00:00:00 UTC is 51.6°N, 0.0°E at 408 km altitude, with a propagation time of 1 day from epoch.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: short propagation time (1 day), reasonable epoch offset, realistic LEO position (408 km altitude, 51.6° inclination), with explicit TLE reference and timestamp."
+  },
+  {
+    "case_id": "orbit_sgp4_002",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation of Starlink-1007 (NORAD 44713) from epoch 2024-03-15 shows the satellite at 53.05° inclination, 550 km altitude on 2024-03-16, within the expected orbital shell.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: 1-day propagation from epoch, valid NORAD ID, realistic Starlink orbital parameters (53.05°, 550 km)."
+  },
+  {
+    "case_id": "orbit_sgp4_003",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Propagating NOAA 19 (NORAD 33591) using SGP4 from TLE epoch 2024-06-01, the ground track on 2024-06-02 passes over the mid-latitudes at approximately 860 km altitude in a sun-synchronous orbit.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: 1-day offset, known satellite with valid NORAD ID, altitude consistent with sun-synchronous orbit (860 km)."
+  },
+  {
+    "case_id": "orbit_sgp4_004",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation of GOES-16 (NORAD 41636) from epoch 2024-01-01 to 2024-01-02 shows the satellite maintaining its geostationary position at approximately 75.2°W longitude with minimal drift.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: GEO satellite with 1-day propagation, known longitude slot (75.2°W), realistic station-keeping behavior."
+  },
+  {
+    "case_id": "orbit_sgp4_005",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Using SGP4 with Hubble Space Telescope TLE (epoch 2024-02-01), the propagated position for 2024-02-02 is approximately 28.5°N latitude, 40 km west of the previous day's ground track, at 535 km altitude.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: 1-day offset, known satellite, realistic altitude (535 km), inclination consistent with Hubble (28.5°)."
+  },
+  {
+    "case_id": "orbit_sgp4_006",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation of the ISS from a TLE with epoch 2010-01-01 predicts the ISS position for 2024-06-15 at 51.6°N, 408 km altitude.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: propagation spans over 14 years from epoch. SGP4 accuracy degrades significantly beyond ~30 days for LEO objects. 14-year propagation is meaningless."
+  },
+  {
+    "case_id": "orbit_sgp4_007",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Propagating a LEO satellite from epoch 2005-06-15 to 2025-06-15 using SGP4 gives the current position at 400 km altitude.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: 20-year propagation from 2005 to 2025. SGP4 is not designed for multi-decade propagation. Results would be completely unreliable."
+  },
+  {
+    "case_id": "orbit_sgp4_008",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Using SGP4 with epoch 2024-01-01, the satellite position 5 years later in 2029 is accurately determined to be at 350 km altitude over the Pacific.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: 5-year forward propagation. SGP4 mean elements diverge significantly over such timescales due to unmodeled perturbations."
+  },
+  {
+    "case_id": "orbit_sgp4_009",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation from epoch 2024-06-01 to 1999-01-01 (backwards in time) shows the satellite was at 500 km altitude.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset with reverse propagation: SGP4 is not designed for backwards propagation. The claim propagates 25 years into the past, which is invalid."
+  },
+  {
+    "case_id": "orbit_sgp4_010",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Propagating from TLE epoch 2020-01-01 to 2024-12-31 using SGP4, the satellite completes exactly 25,000 orbits with precise ground track repeatability.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: nearly 5 years of propagation with a claim of precise orbit counting. SGP4 cannot maintain this level of accuracy over multi-year timescales."
+  },
+  {
+    "case_id": "orbit_sgp4_011",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation results in a position of NaN latitude and NaN longitude at 408 km altitude for the ISS.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "NaN propagation result: SGP4 has produced NaN (Not a Number) values, indicating a numerical failure in the propagation. This is a known failure mode for near-degenerate orbits or invalid elements."
+  },
+  {
+    "case_id": "orbit_sgp4_012",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The SGP4 propagator outputs Infinity for the radial distance when propagating this TLE with an eccentricity of 0.999.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Infinity propagation result: the claim explicitly states infinite radial distance. This indicates the orbital elements are outside SGP4's valid domain (eccentricity 0.999 is likely too high for SGP4's deep-space model)."
+  },
+  {
+    "case_id": "orbit_sgp4_013",
+    "claim_type": "orbit_propagation_claim",
+    "input": "After SGP4 propagation, the satellite velocity is reported as -Infinity m/s, indicating a computational error in the propagation model.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Negative infinity velocity: explicit propagation failure. SGP4 has produced a non-physical result (-Infinity m/s). The claim acknowledges the error but still presents it as a finding."
+  },
+  {
+    "case_id": "orbit_sgp4_014",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation produces NaN for the semi-major axis, NaN for eccentricity, and NaN for inclination. The satellite position is therefore undefined.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Multiple NaN outputs: all three key orbital elements are NaN. This is a complete propagation failure and the resulting position claim is undefined and unusable."
+  },
+  {
+    "case_id": "orbit_sgp4_015",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The propagated position shows the satellite at an altitude of Infinity km with NaN velocity vector components.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Combined Infinity and NaN: the claim reports both infinite altitude and NaN velocity. This is a catastrophic propagation failure with no physical meaning."
+  },
+  {
+    "case_id": "orbit_sgp4_016",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The satellite will be over New York City at approximately 2:30 PM local time tomorrow based on orbital calculations.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim without SGP4-specific reference: no TLE provided, no epoch specified, no propagation model named. Claim requires supporting TLE data and SGP4 propagation evidence."
+  },
+  {
+    "case_id": "orbit_sgp4_017",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Based on current orbital elements, the satellite ground track passes over Europe three times per day.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: references 'current orbital elements' without providing them, no SGP4 model explicitly referenced, no specific timestamps. Requires TLE and propagation evidence."
+  },
+  {
+    "case_id": "orbit_sgp4_018",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Orbital analysis suggests the satellite will be visible from the ground station at dawn for approximately 5 minutes.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: 'orbital analysis' is vague, no TLE, no epoch, no specific propagation model mentioned. Requires detailed orbital evidence to verify."
+  },
+  {
+    "case_id": "orbit_sgp4_019",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The next pass over the northern hemisphere will occur in approximately 45 minutes according to the orbital model.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: no TLE provided, no specific satellite identified, 'orbital model' is ambiguous (could be SGP4, SDP4, or simplified). Needs evidence."
+  },
+  {
+    "case_id": "orbit_sgp4_020",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Satellite ephemeris calculations predict a visibility window of 8 minutes from the tracking station location.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: 'ephemeris calculations' without specifying SGP4, no TLE data, no satellite identification, no epoch. Requires supporting evidence."
+  }
+]

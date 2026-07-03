@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_tle_001",
+    "claim_type": "tle_claim",
+    "input": "The ISS TLE is: 1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE format: two 69-character lines with correct checksums, valid NORAD catalog number 25544 (ISS), correct element set number and epoch year format."
+  },
+  {
+    "case_id": "orbit_tle_002",
+    "claim_type": "tle_claim",
+    "input": "NOAA 19 TLE: 1 33591U 09005A   24001.50000000  0.00000150  00000-0  14000-4 0  9990\n2 33591  99.1900 120.5000 0014000 200.0000 160.0000 14.12400000100000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE format for NOAA 19 (NORAD 33591): correct line lengths, valid checksums, realistic inclination (99.19° sun-synchronous), valid epoch."
+  },
+  {
+    "case_id": "orbit_tle_003",
+    "claim_type": "tle_claim",
+    "input": "Starlink-1007 TLE: 1 44713U 19074A   24015.25000000  0.00002000  00000-0  10000-4 0  9993\n2 44713  53.0500  90.0000 0001500 270.0000  90.0000 15.06000000 10000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE for Starlink satellite (NORAD 44713): correct format, realistic Starlink inclination (53.05°), valid mean motion."
+  },
+  {
+    "case_id": "orbit_tle_004",
+    "claim_type": "tle_claim",
+    "input": "GOES-16 TLE: 1 41636U 16060A   24030.00000000 -0.00000080  00000-0  00000+0 0  9990\n2 41636   0.0800 280.0000 0002500 100.0000 260.0000  1.00270000 19000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE for GOES-16 (NORAD 41636): correct format, near-zero inclination for GEO, low mean motion consistent with geostationary orbit."
+  },
+  {
+    "case_id": "orbit_tle_005",
+    "claim_type": "tle_claim",
+    "input": "Hubble Space Telescope TLE: 1 20580U 90037B   24045.75000000  0.00000200  00000-0  25000-5 0  9993\n2 20580  28.4700 150.0000 0002800  45.0000 315.0000 15.09100000550000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE for Hubble (NORAD 20580): correct format, inclination 28.47° consistent with Hubble's orbit, valid epoch and checksums."
+  },
+  {
+    "case_id": "orbit_tle_006",
+    "claim_type": "tle_claim",
+    "input": "The TLE for the satellite is:\n1 25544U 98067A\n2 25544  51.6416 247.4627",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 1 is only 18 characters (should be 69), line 2 is only 31 characters (should be 69). Multiple missing fields, invalid checksums."
+  },
+  {
+    "case_id": "orbit_tle_007",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\nThis is the second line of the TLE data output",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 2 is free-form text instead of a properly formatted TLE line 2. Does not match the required columnar format."
+  },
+  {
+    "case_id": "orbit_tle_008",
+    "claim_type": "tle_claim",
+    "input": "1 99999U 00000A   24000.00000000  0.00000000  00000-0  00000-0 0  0000\n2 99999 999.0000 999.0000 9999999 999.0000 999.0000 99.99999999 99999",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: inclination 999° exceeds maximum 180°, eccentricity 0.9999999 is invalid (should be < 1.0 for closed orbit and formatted as 6-digit decimal), mean motion 99.99 is impossibly high."
+  },
+  {
+    "case_id": "orbit_tle_009",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563538",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 2 checksum is invalid. Last digit should be 7 (mod-10 checksum of preceding digits) but is 8. Checksum failure indicates data corruption."
+  },
+  {
+    "case_id": "orbit_tle_010",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.7212539156353",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 2 is only 68 characters instead of required 69. Missing the final checksum digit."
+  },
+  {
+    "case_id": "orbit_tle_011",
+    "claim_type": "tle_claim",
+    "input": "The satellite has the following TLE parameters: inclination=51.6°, RAAN=247.5°, eccentricity=0.00067, argument of perigee=130.5°, mean anomaly=325.0°, mean motion=15.72 rev/day",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing TLE fields: no NORAD ID, no international designator, no epoch, no classification, no element number, no drag terms. Individual parameters are present but not in TLE format."
+  },
+  {
+    "case_id": "orbit_tle_012",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing TLE line 2: only one line provided. TLE format requires exactly two lines. Cannot determine orbital position from line 1 alone."
+  },
+  {
+    "case_id": "orbit_tle_013",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n2 25544  52.0000 248.0000 0007000 131.0000 326.0000 15.75000000564000",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Ambiguous TLE: three lines provided instead of the required two. Two line-2 entries with conflicting data. Cannot determine which set is authoritative."
+  },
+  {
+    "case_id": "orbit_tle_014",
+    "claim_type": "tle_claim",
+    "input": "1 25544 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing classification field: column 8 should contain 'U' (unclassified), 'C' (classified), or 'S' (secret). Line 1 column 8 is '9' instead of 'U'. Possible format shift or data corruption."
+  },
+  {
+    "case_id": "orbit_tle_015",
+    "claim_type": "tle_claim",
+    "input": "1 00000U 00000A   00000.00000000  0.00000000  00000-0  00000-0 0  0000\n2 00000   0.0000   0.0000 0000000   0.0000   0.0000  0.00000000  00000",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing meaningful data: all orbital elements are zero. NORAD ID 00000 is a placeholder. This is a null/default TLE with no useful orbital information."
+  },
+  {
+    "case_id": "orbit_tle_016",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537                                                                                                                                                                                                                                                                ",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: line 2 has excessive trailing whitespace extending well beyond 69 characters. TLE lines must be exactly 69 characters each."
+  },
+  {
+    "case_id": "orbit_tle_017",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   99365.99999999 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: epoch year 99 (1999) combined with day 365.999 is a plausible but very old epoch. The epoch is over 24 years old which may indicate stale data requiring verification."
+  },
+  {
+    "case_id": "orbit_tle_018",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n\nSome extra text here\nAnd another line",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: valid TLE embedded within additional text. The TLE itself appears valid but the surrounding context is ambiguous. Gate should extract and validate the TLE lines specifically."
+  },
+  {
+    "case_id": "orbit_tle_019",
+    "claim_type": "tle_claim",
+    "input": "1 25544C 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: classification 'C' indicates a classified object. The TLE format is technically valid but contains classified orbital data that should not be processed or distributed without proper authorization."
+  },
+  {
+    "case_id": "orbit_tle_020",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\t",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: line 2 contains a tab character at the end, making it 70 bytes. TLE format requires strict 69-character ASCII lines with no tab characters. Parsing may fail."
+  }
+]

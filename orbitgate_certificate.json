@@ -1,0 +1,68 @@
+{
+  "certificate_type": "ORBITGATE_V0_CERTIFICATE",
+  "version": "0.1.0",
+  "generated_at_utc": "2026-06-27T04:41:37Z",
+  "orbitgate_identity": {
+    "name": "OrbitGate",
+    "version": "0.1.0",
+    "description": "Deterministic verification-gate system for AI-generated orbital/satellite/aerospace claims",
+    "type": "public_research_prototype"
+  },
+  "flight_certified": false,
+  "real_spacecraft_control": false,
+  "external_validation_complete": false,
+  "scope": {
+    "supported_gates": [
+      "TLEGate",
+      "SGP4Gate",
+      "DeltaVGate",
+      "CollisionGate",
+      "PowerGate",
+      "ThermalGate",
+      "CommsGate",
+      "DeorbitGate",
+      "CommandGate"
+    ],
+    "supported_claim_types": [
+      "tle_claim",
+      "orbit_propagation_claim",
+      "altitude_claim",
+      "inclination_claim",
+      "period_claim",
+      "delta_v_claim",
+      "collision_avoidance_claim",
+      "conjunction_claim",
+      "deorbit_claim",
+      "power_budget_claim",
+      "thermal_claim",
+      "comms_window_claim",
+      "ground_station_claim",
+      "command_sequence_claim",
+      "launch_readiness_claim",
+      "flight_certification_claim"
+    ]
+  },
+  "verification_summary": {
+    "total_claims_evaluated": 160,
+    "allowed": 49,
+    "blocked": 30,
+    "needs_review": 3,
+    "evidence_required": 65
+  },
+  "limitations": [
+    "OrbitGate v0 uses pattern-based and rule-based checks only.",
+    "It does not access live orbital data or telemetry.",
+    "SGP4 propagation is a simplified model and not flight-certified.",
+    "All decisions require human review before real-world application.",
+    "Temperature ranges, delta-v thresholds, and other limits use conservative defaults."
+  ],
+  "disclaimers": [
+    "OrbitGate v0 is a research prototype. It is NOT flight-certified.",
+    "OrbitGate does not control real spacecraft.",
+    "OrbitGate does not replace mission control or any space agency.",
+    "All gate decisions require human review before real-world application.",
+    "OrbitGate does not guarantee orbital safety or collision avoidance.",
+    "OrbitGate does not prove regulatory compliance."
+  ],
+  "certificate_hash": "8d367d23e9a5bdb319c3f53c789c812919aabcb076b7527b13d7e7f83908e8c9"
+}

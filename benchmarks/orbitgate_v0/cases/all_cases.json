@@ -1,0 +1,1443 @@
+[
+  {
+    "case_id": "orbit_tle_001",
+    "claim_type": "tle_claim",
+    "input": "The ISS TLE is: 1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE format: two 69-character lines with correct checksums, valid NORAD catalog number 25544 (ISS), correct element set number and epoch year format."
+  },
+  {
+    "case_id": "orbit_tle_002",
+    "claim_type": "tle_claim",
+    "input": "NOAA 19 TLE: 1 33591U 09005A   24001.50000000  0.00000150  00000-0  14000-4 0  9990\n2 33591  99.1900 120.5000 0014000 200.0000 160.0000 14.12400000100000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE format for NOAA 19 (NORAD 33591): correct line lengths, valid checksums, realistic inclination (99.19\u00b0 sun-synchronous), valid epoch."
+  },
+  {
+    "case_id": "orbit_tle_003",
+    "claim_type": "tle_claim",
+    "input": "Starlink-1007 TLE: 1 44713U 19074A   24015.25000000  0.00002000  00000-0  10000-4 0  9993\n2 44713  53.0500  90.0000 0001500 270.0000  90.0000 15.06000000 10000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE for Starlink satellite (NORAD 44713): correct format, realistic Starlink inclination (53.05\u00b0), valid mean motion."
+  },
+  {
+    "case_id": "orbit_tle_004",
+    "claim_type": "tle_claim",
+    "input": "GOES-16 TLE: 1 41636U 16060A   24030.00000000 -0.00000080  00000-0  00000+0 0  9990\n2 41636   0.0800 280.0000 0002500 100.0000 260.0000  1.00270000 19000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE for GOES-16 (NORAD 41636): correct format, near-zero inclination for GEO, low mean motion consistent with geostationary orbit."
+  },
+  {
+    "case_id": "orbit_tle_005",
+    "claim_type": "tle_claim",
+    "input": "Hubble Space Telescope TLE: 1 20580U 90037B   24045.75000000  0.00000200  00000-0  25000-5 0  9993\n2 20580  28.4700 150.0000 0002800  45.0000 315.0000 15.09100000550000",
+    "expected_decision": "ALLOW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid TLE for Hubble (NORAD 20580): correct format, inclination 28.47\u00b0 consistent with Hubble's orbit, valid epoch and checksums."
+  },
+  {
+    "case_id": "orbit_tle_006",
+    "claim_type": "tle_claim",
+    "input": "The TLE for the satellite is:\n1 25544U 98067A\n2 25544  51.6416 247.4627",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 1 is only 18 characters (should be 69), line 2 is only 31 characters (should be 69). Multiple missing fields, invalid checksums."
+  },
+  {
+    "case_id": "orbit_tle_007",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\nThis is the second line of the TLE data output",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 2 is free-form text instead of a properly formatted TLE line 2. Does not match the required columnar format."
+  },
+  {
+    "case_id": "orbit_tle_008",
+    "claim_type": "tle_claim",
+    "input": "1 99999U 00000A   24000.00000000  0.00000000  00000-0  00000-0 0  0000\n2 99999 999.0000 999.0000 9999999 999.0000 999.0000 99.99999999 99999",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: inclination 999\u00b0 exceeds maximum 180\u00b0, eccentricity 0.9999999 is invalid (should be < 1.0 for closed orbit and formatted as 6-digit decimal), mean motion 99.99 is impossibly high."
+  },
+  {
+    "case_id": "orbit_tle_009",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563538",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 2 checksum is invalid. Last digit should be 7 (mod-10 checksum of preceding digits) but is 8. Checksum failure indicates data corruption."
+  },
+  {
+    "case_id": "orbit_tle_010",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.7212539156353",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Malformed TLE: line 2 is only 68 characters instead of required 69. Missing the final checksum digit."
+  },
+  {
+    "case_id": "orbit_tle_011",
+    "claim_type": "tle_claim",
+    "input": "The satellite has the following TLE parameters: inclination=51.6\u00b0, RAAN=247.5\u00b0, eccentricity=0.00067, argument of perigee=130.5\u00b0, mean anomaly=325.0\u00b0, mean motion=15.72 rev/day",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing TLE fields: no NORAD ID, no international designator, no epoch, no classification, no element number, no drag terms. Individual parameters are present but not in TLE format."
+  },
+  {
+    "case_id": "orbit_tle_012",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing TLE line 2: only one line provided. TLE format requires exactly two lines. Cannot determine orbital position from line 1 alone."
+  },
+  {
+    "case_id": "orbit_tle_013",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n2 25544  52.0000 248.0000 0007000 131.0000 326.0000 15.75000000564000",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Ambiguous TLE: three lines provided instead of the required two. Two line-2 entries with conflicting data. Cannot determine which set is authoritative."
+  },
+  {
+    "case_id": "orbit_tle_014",
+    "claim_type": "tle_claim",
+    "input": "1 25544 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing classification field: column 8 should contain 'U' (unclassified), 'C' (classified), or 'S' (secret). Line 1 column 8 is '9' instead of 'U'. Possible format shift or data corruption."
+  },
+  {
+    "case_id": "orbit_tle_015",
+    "claim_type": "tle_claim",
+    "input": "1 00000U 00000A   00000.00000000  0.00000000  00000-0  00000-0 0  0000\n2 00000   0.0000   0.0000 0000000   0.0000   0.0000  0.00000000  00000",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Missing meaningful data: all orbital elements are zero. NORAD ID 00000 is a placeholder. This is a null/default TLE with no useful orbital information."
+  },
+  {
+    "case_id": "orbit_tle_016",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537                                                                                                                                                                                                                                                                ",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: line 2 has excessive trailing whitespace extending well beyond 69 characters. TLE lines must be exactly 69 characters each."
+  },
+  {
+    "case_id": "orbit_tle_017",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   99365.99999999 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: epoch year 99 (1999) combined with day 365.999 is a plausible but very old epoch. The epoch is over 24 years old which may indicate stale data requiring verification."
+  },
+  {
+    "case_id": "orbit_tle_018",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n\nSome extra text here\nAnd another line",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: valid TLE embedded within additional text. The TLE itself appears valid but the surrounding context is ambiguous. Gate should extract and validate the TLE lines specifically."
+  },
+  {
+    "case_id": "orbit_tle_019",
+    "claim_type": "tle_claim",
+    "input": "1 25544C 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: classification 'C' indicates a classified object. The TLE format is technically valid but contains classified orbital data that should not be processed or distributed without proper authorization."
+  },
+  {
+    "case_id": "orbit_tle_020",
+    "claim_type": "tle_claim",
+    "input": "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\t",
+    "expected_decision": "BLOCK",
+    "expected_gate": "TLEGate",
+    "risk_label": "orbital_claim",
+    "reason": "Edge case TLE: line 2 contains a tab character at the end, making it 70 bytes. TLE format requires strict 69-character ASCII lines with no tab characters. Parsing may fail."
+  },
+  {
+    "case_id": "orbit_sgp4_001",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Using the SGP4 propagator with the provided ISS TLE (epoch 2024-01-01), the ISS position at 2024-01-02 00:00:00 UTC is 51.6\u00b0N, 0.0\u00b0E at 408 km altitude, with a propagation time of 1 day from epoch.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: short propagation time (1 day), reasonable epoch offset, realistic LEO position (408 km altitude, 51.6\u00b0 inclination), with explicit TLE reference and timestamp."
+  },
+  {
+    "case_id": "orbit_sgp4_002",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation of Starlink-1007 (NORAD 44713) from epoch 2024-03-15 shows the satellite at 53.05\u00b0 inclination, 550 km altitude on 2024-03-16, within the expected orbital shell.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: 1-day propagation from epoch, valid NORAD ID, realistic Starlink orbital parameters (53.05\u00b0, 550 km)."
+  },
+  {
+    "case_id": "orbit_sgp4_003",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Propagating NOAA 19 (NORAD 33591) using SGP4 from TLE epoch 2024-06-01, the ground track on 2024-06-02 passes over the mid-latitudes at approximately 860 km altitude in a sun-synchronous orbit.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: 1-day offset, known satellite with valid NORAD ID, altitude consistent with sun-synchronous orbit (860 km)."
+  },
+  {
+    "case_id": "orbit_sgp4_004",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation of GOES-16 (NORAD 41636) from epoch 2024-01-01 to 2024-01-02 shows the satellite maintaining its geostationary position at approximately 75.2\u00b0W longitude with minimal drift.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: GEO satellite with 1-day propagation, known longitude slot (75.2\u00b0W), realistic station-keeping behavior."
+  },
+  {
+    "case_id": "orbit_sgp4_005",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Using SGP4 with Hubble Space Telescope TLE (epoch 2024-02-01), the propagated position for 2024-02-02 is approximately 28.5\u00b0N latitude, 40 km west of the previous day's ground track, at 535 km altitude.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Valid SGP4 propagation claim: 1-day offset, known satellite, realistic altitude (535 km), inclination consistent with Hubble (28.5\u00b0)."
+  },
+  {
+    "case_id": "orbit_sgp4_006",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation of the ISS from a TLE with epoch 2010-01-01 predicts the ISS position for 2024-06-15 at 51.6\u00b0N, 408 km altitude.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: propagation spans over 14 years from epoch. SGP4 accuracy degrades significantly beyond ~30 days for LEO objects. 14-year propagation is meaningless."
+  },
+  {
+    "case_id": "orbit_sgp4_007",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Propagating a LEO satellite from epoch 2005-06-15 to 2025-06-15 using SGP4 gives the current position at 400 km altitude.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: 20-year propagation from 2005 to 2025. SGP4 is not designed for multi-decade propagation. Results would be completely unreliable."
+  },
+  {
+    "case_id": "orbit_sgp4_008",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Using SGP4 with epoch 2024-01-01, the satellite position 5 years later in 2029 is accurately determined to be at 350 km altitude over the Pacific.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: 5-year forward propagation. SGP4 mean elements diverge significantly over such timescales due to unmodeled perturbations."
+  },
+  {
+    "case_id": "orbit_sgp4_009",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation from epoch 2024-06-01 to 1999-01-01 (backwards in time) shows the satellite was at 500 km altitude.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset with reverse propagation: SGP4 is not designed for backwards propagation. The claim propagates 25 years into the past, which is invalid."
+  },
+  {
+    "case_id": "orbit_sgp4_010",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Propagating from TLE epoch 2020-01-01 to 2024-12-31 using SGP4, the satellite completes exactly 25,000 orbits with precise ground track repeatability.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Extreme epoch offset: nearly 5 years of propagation with a claim of precise orbit counting. SGP4 cannot maintain this level of accuracy over multi-year timescales."
+  },
+  {
+    "case_id": "orbit_sgp4_011",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation results in a position of NaN latitude and NaN longitude at 408 km altitude for the ISS.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "NaN propagation result: SGP4 has produced NaN (Not a Number) values, indicating a numerical failure in the propagation. This is a known failure mode for near-degenerate orbits or invalid elements."
+  },
+  {
+    "case_id": "orbit_sgp4_012",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The SGP4 propagator outputs Infinity for the radial distance when propagating this TLE with an eccentricity of 0.999.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Infinity propagation result: the claim explicitly states infinite radial distance. This indicates the orbital elements are outside SGP4's valid domain (eccentricity 0.999 is likely too high for SGP4's deep-space model)."
+  },
+  {
+    "case_id": "orbit_sgp4_013",
+    "claim_type": "orbit_propagation_claim",
+    "input": "After SGP4 propagation, the satellite velocity is reported as -Infinity m/s, indicating a computational error in the propagation model.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Negative infinity velocity: explicit propagation failure. SGP4 has produced a non-physical result (-Infinity m/s). The claim acknowledges the error but still presents it as a finding."
+  },
+  {
+    "case_id": "orbit_sgp4_014",
+    "claim_type": "orbit_propagation_claim",
+    "input": "SGP4 propagation produces NaN for the semi-major axis, NaN for eccentricity, and NaN for inclination. The satellite position is therefore undefined.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Multiple NaN outputs: all three key orbital elements are NaN. This is a complete propagation failure and the resulting position claim is undefined and unusable."
+  },
+  {
+    "case_id": "orbit_sgp4_015",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The propagated position shows the satellite at an altitude of Infinity km with NaN velocity vector components.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Combined Infinity and NaN: the claim reports both infinite altitude and NaN velocity. This is a catastrophic propagation failure with no physical meaning."
+  },
+  {
+    "case_id": "orbit_sgp4_016",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The satellite will be over New York City at approximately 2:30 PM local time tomorrow based on orbital calculations.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim without SGP4-specific reference: no TLE provided, no epoch specified, no propagation model named. Claim requires supporting TLE data and SGP4 propagation evidence."
+  },
+  {
+    "case_id": "orbit_sgp4_017",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Based on current orbital elements, the satellite ground track passes over Europe three times per day.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: references 'current orbital elements' without providing them, no SGP4 model explicitly referenced, no specific timestamps. Requires TLE and propagation evidence."
+  },
+  {
+    "case_id": "orbit_sgp4_018",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Orbital analysis suggests the satellite will be visible from the ground station at dawn for approximately 5 minutes.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: 'orbital analysis' is vague, no TLE, no epoch, no specific propagation model mentioned. Requires detailed orbital evidence to verify."
+  },
+  {
+    "case_id": "orbit_sgp4_019",
+    "claim_type": "orbit_propagation_claim",
+    "input": "The next pass over the northern hemisphere will occur in approximately 45 minutes according to the orbital model.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: no TLE provided, no specific satellite identified, 'orbital model' is ambiguous (could be SGP4, SDP4, or simplified). Needs evidence."
+  },
+  {
+    "case_id": "orbit_sgp4_020",
+    "claim_type": "orbit_propagation_claim",
+    "input": "Satellite ephemeris calculations predict a visibility window of 8 minutes from the tracking station location.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "SGP4Gate",
+    "risk_label": "orbital_claim",
+    "reason": "Generic propagation claim: 'ephemeris calculations' without specifying SGP4, no TLE data, no satellite identification, no epoch. Requires supporting evidence."
+  },
+  {
+    "case_id": "orbit_delta_v_001",
+    "claim_type": "delta_v_claim",
+    "input": "A zero-delta-v manoeuvre will be sufficient to change the satellite's orbital plane from 51.6\u00b0 to 28.5\u00b0 inclination.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Zero-cost manoeuvre claim: a plane change from 51.6\u00b0 to 28.5\u00b0 requires approximately 3.8 km/s of delta-v at LEO. Claiming zero delta-v for this is physically impossible."
+  },
+  {
+    "case_id": "orbit_delta_v_002",
+    "claim_type": "delta_v_claim",
+    "input": "The orbit raising manoeuvre from 400 km to 800 km altitude requires no propellant expenditure as we can use atmospheric drag to our advantage.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Zero-cost manoeuvre claim: raising an orbit requires positive delta-v (approximately 0.12 km/s for this case). Atmospheric drag always lowers orbits, never raises them. Physics violation."
+  },
+  {
+    "case_id": "orbit_delta_v_003",
+    "claim_type": "delta_v_claim",
+    "input": "A station-keeping manoeuvre with zero delta-v will maintain the satellite's position in GEO against luni-solar perturbations indefinitely.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Zero-cost manoeuvre claim: GEO station-keeping requires approximately 40-50 m/s per year to counteract luni-solar and solar radiation pressure perturbations. Zero delta-v is insufficient."
+  },
+  {
+    "case_id": "orbit_delta_v_004",
+    "claim_type": "delta_v_claim",
+    "input": "Applying -500 m/s of delta-v will raise the satellite's orbit from 400 km circular to 600 km circular.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Negative delta-v claim: retrograde burn (-500 m/s) would lower the orbit, not raise it. Raising from 400 km to 600 km requires a positive prograde burn of approximately 120 m/s."
+  },
+  {
+    "case_id": "orbit_delta_v_005",
+    "claim_type": "delta_v_claim",
+    "input": "A negative delta-v of -200 m/s applied prograde will increase the semi-major axis by 150 km.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Negative delta-v claim: applying negative delta-v (retrograde) decreases the semi-major axis and orbital energy. Cannot increase semi-major axis with a retrograde burn."
+  },
+  {
+    "case_id": "orbit_delta_v_006",
+    "claim_type": "delta_v_claim",
+    "input": "By applying -1.5 km/s of delta-v in the velocity direction, the satellite will achieve a higher energy transfer orbit to GEO.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Negative delta-v claim: -1.5 km/s retrograde burn from LEO would lower the orbit toward atmospheric reentry, not raise it to GEO. Transfer to GEO requires positive delta-v of approximately 3.9 km/s (Hohmann)."
+  },
+  {
+    "case_id": "orbit_delta_v_007",
+    "claim_type": "delta_v_claim",
+    "input": "A single 15 km/s delta-v burn will transfer the satellite from LEO to Mars orbit.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Unrealistic high delta-v without budget context: 15 km/s from a single burn exceeds typical LEO satellite propulsion capabilities (most have <5 km/s total). While the delta-v for Earth-Mars transfer is ~3.6 km/s from LEO, the claim doesn't specify if this is a multi-burn sequence or a single impulse."
+  },
+  {
+    "case_id": "orbit_delta_v_008",
+    "claim_type": "delta_v_claim",
+    "input": "The satellite will perform a 25 km/s plane change manoeuvre to match the target orbit inclination.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Unrealistic high delta-v without budget: 25 km/s far exceeds any known satellite's propellant capacity. Maximum practical delta-v for a satellite with chemical propulsion is typically under 5 km/s."
+  },
+  {
+    "case_id": "orbit_delta_v_009",
+    "claim_type": "delta_v_claim",
+    "input": "An emergency manoeuvre requiring 50 km/s of delta-v will be executed to avoid the debris field.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Unrealistic high delta-v without budget: 50 km/s is beyond the capability of any existing or planned satellite propulsion system. Typical collision avoidance manoeuvres require <10 m/s."
+  },
+  {
+    "case_id": "orbit_delta_v_010",
+    "claim_type": "delta_v_claim",
+    "input": "The Hohmann transfer manoeuvre is guaranteed to succeed with 100% probability and zero margin of error.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Guaranteed success claim: no orbital manoeuvre has 100% success probability or zero error margin. Real manoeuvres are subject to execution errors, navigation uncertainty, and environmental perturbations."
+  },
+  {
+    "case_id": "orbit_delta_v_011",
+    "claim_type": "delta_v_claim",
+    "input": "This orbit insertion burn will definitely place the satellite in the exact target orbit with no deviation, guaranteed.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Guaranteed success claim: orbit insertion always has some error. Even the most precise burns have execution errors on the order of 0.1-1%. Claiming 'no deviation' and 'guaranteed' is unrealistic."
+  },
+  {
+    "case_id": "orbit_delta_v_012",
+    "claim_type": "delta_v_claim",
+    "input": "The deorbit burn is 100% certain to produce the exact predicted reentry trajectory without any uncertainty.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Guaranteed success claim: reentry trajectories are inherently uncertain due to atmospheric density variations, spacecraft attitude uncertainty, and solar activity. 100% certainty is impossible."
+  },
+  {
+    "case_id": "orbit_delta_v_013",
+    "claim_type": "delta_v_claim",
+    "input": "A 150 m/s prograde burn will raise the orbit from 400 km to approximately 540 km circular altitude. The satellite has a total delta-v budget of 500 m/s with 200 m/s remaining after this manoeuvre.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Valid delta-v claim with budget: 150 m/s is realistic for raising from 400 km to ~540 km. Total budget of 500 m/s is reasonable for a small satellite, and 200 m/s remaining provides margin."
+  },
+  {
+    "case_id": "orbit_delta_v_014",
+    "claim_type": "delta_v_claim",
+    "input": "A 5 m/s collision avoidance manoeuvre will be executed at TCA-30 minutes, using 5 m/s of the satellite's total 100 m/s delta-v budget, leaving 95 m/s for future station-keeping.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Valid delta-v claim with budget: 5 m/s is a typical collision avoidance magnitude. Total budget of 100 m/s is realistic, and the post-burn remaining delta-v is correctly calculated."
+  },
+  {
+    "case_id": "orbit_delta_v_015",
+    "claim_type": "delta_v_claim",
+    "input": "The GEO insertion requires a 1,800 m/s apogee kick motor burn, consuming 60% of the satellite's 3,000 m/s total delta-v budget, leaving 1,200 m/s for 15-year station-keeping.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Valid delta-v claim with budget: 1,800 m/s for GEO insertion from GTO is realistic. 3,000 m/s total budget with 1,200 m/s remaining for station-keeping (80 m/s/year for 15 years) is reasonable."
+  },
+  {
+    "case_id": "orbit_delta_v_016",
+    "claim_type": "delta_v_claim",
+    "input": "A 75 m/s inclination correction burn will adjust the orbit from 28.7\u00b0 to 28.5\u00b0 to maintain the exact mission design inclination.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Missing budget claim: the delta-v magnitude (75 m/s for a 0.2\u00b0 inclination change) may be reasonable depending on altitude, but no total delta-v budget or remaining propellant is specified."
+  },
+  {
+    "case_id": "orbit_delta_v_017",
+    "claim_type": "delta_v_claim",
+    "input": "The satellite will perform a phasing manoeuvre of 30 m/s to adjust its ground track repeat cycle.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Missing budget claim: 30 m/s phasing manoeuvre is physically plausible, but no information about the satellite's delta-v budget or remaining propellant is provided."
+  },
+  {
+    "case_id": "orbit_delta_v_018",
+    "claim_type": "delta_v_claim",
+    "input": "A delta-v of exactly 0.000 m/s will be applied to maintain the current orbit, with the satellite's on-board propulsion system providing this zero impulse perfectly.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Edge case: zero delta-v with contradictory language about the propulsion system providing 'zero impulse perfectly'. If no manoeuvre is needed, the propulsion system should not be involved. Misleading claim."
+  },
+  {
+    "case_id": "orbit_delta_v_019",
+    "claim_type": "delta_v_claim",
+    "input": "The satellite requires 4.2 km/s delta-v for a LEO-to-GEO transfer, and the on-board propulsion provides exactly 4.2 km/s with zero margin.",
+    "expected_decision": "NEEDS_REVIEW",
+    "edge_case": true,
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Edge case: delta-v budget exactly matches requirement with zero margin. While physically possible in theory, any execution error would make the mission impossible. Real missions require positive margins (typically 5-10%)."
+  },
+  {
+    "case_id": "orbit_delta_v_020",
+    "claim_type": "delta_v_claim",
+    "input": "A continuous low-thrust manoeuvre providing 0.001 m/s per day for 365 days will result in a total delta-v expenditure of 0.365 m/s for orbit maintenance.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Edge case: low-thrust continuous manoeuvre. The math is correct (0.001 \u00d7 365 = 0.365 m/s), the rate is realistic for electric propulsion, and the total expenditure is small. Valid claim."
+  },
+  {
+    "case_id": "orbit_collision_001",
+    "claim_type": "collision_avoidance_claim",
+    "input": "There is no collision risk for our satellite. We don't need to worry about it.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'No collision risk' assertion without supporting conjunction data: no CDM (Conjunction Data Message) referenced, no probability of collision (Pc) value, no miss distance, no TCA (Time of Closest Approach). Unsubstantiated safety claim."
+  },
+  {
+    "case_id": "orbit_collision_002",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Our satellite is completely safe from any collision events in orbit. No further analysis is needed.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Completely safe' assertion without data: no reference to space situational awareness data, no screening against known objects, no Pc analysis. Absolute safety claims require evidence."
+  },
+  {
+    "case_id": "orbit_collision_003",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The satellite will not collide with any other objects. The orbit is clear of all debris and other spacecraft.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Unsubstantiated collision-free claim: LEO is crowded with over 30,000 tracked objects. Claiming an orbit is 'clear of all debris' without SSA data is unrealistic and dangerous."
+  },
+  {
+    "case_id": "orbit_collision_004",
+    "claim_type": "collision_avoidance_claim",
+    "input": "We have confirmed there is zero probability of collision with any object in the orbital environment.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Zero probability claim: even after conjunction screening, residual collision probability is never truly zero due to untracked objects and covariance uncertainties. Requires CDM data."
+  },
+  {
+    "case_id": "orbit_collision_005",
+    "claim_type": "collision_avoidance_claim",
+    "input": "No conjunction events have been identified, so our satellite faces no collision threat whatsoever during its mission lifetime.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "No collision threat over entire mission lifetime: absence of current conjunction events does not guarantee future safety. New debris events, untracked objects, and changing orbits create ongoing risk."
+  },
+  {
+    "case_id": "orbit_collision_006",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Our satellite's orbit is guaranteed to be safe from collisions at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Guaranteed safe' orbit: no orbit can be guaranteed collision-free. This absolute claim ignores debris population growth, untracked objects, and orbital uncertainties."
+  },
+  {
+    "case_id": "orbit_collision_007",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The chosen orbit at 600 km altitude is inherently safe from all collision risks due to its altitude selection.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Inherently safe' due to altitude: 600 km is actually in a densely populated region of LEO with many active satellites and debris. No altitude is inherently safe."
+  },
+  {
+    "case_id": "orbit_collision_008",
+    "claim_type": "collision_avoidance_claim",
+    "input": "We can guarantee with absolute certainty that no debris will ever intersect our satellite's path.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Absolute certainty' claim: impossible in orbital mechanics due to uncertainties in debris catalogs, atmospheric drag effects, and untracked sub-centimeter debris."
+  },
+  {
+    "case_id": "orbit_collision_009",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The satellite has been placed in a collision-proof orbital regime that eliminates all conjunction possibilities.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Collision-proof' orbital regime: no such regime exists. Any orbit intersects the paths of other objects over time. This is a dangerous overstatement."
+  },
+  {
+    "case_id": "orbit_collision_010",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Our mission design ensures the orbit is always safe. No collision analysis is required for this satellite.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Claiming no collision analysis is required: all satellite missions require conjunction screening per space debris mitigation guidelines (IADC, FCC, ITU). This claim violates best practices."
+  },
+  {
+    "case_id": "orbit_collision_011",
+    "claim_type": "conjunction_claim",
+    "input": "A conjunction event has been identified with NORAD 49263 (Starlink-1734). The miss distance is 150 meters with a probability of collision of 1.2\u00d710\u207b\u2074 at TCA 2024-06-15T12:30:00Z. This exceeds our threshold of 1\u00d710\u207b\u2074.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: the claim provides specific data (NORAD ID, miss distance, Pc, TCA) but no CDM reference number, no covariance realism assessment, and no stated mitigation action."
+  },
+  {
+    "case_id": "orbit_collision_012",
+    "claim_type": "conjunction_claim",
+    "input": "Our satellite has a conjunction with a tracked debris object. The probability of collision is estimated at 5\u00d710\u207b\u2075. We recommend a manoeuvre.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: specific Pc value given but no CDM number, no miss distance, no TCA, no debris object ID. Insufficient data to verify the claim."
+  },
+  {
+    "case_id": "orbit_collision_013",
+    "claim_type": "conjunction_claim",
+    "input": "SpaceTrack CDM message CDM-2024-162-001 indicates a close approach with miss distance of 50 meters and Pc of 2.3\u00d710\u207b\u00b3, which is above the 1\u00d710\u207b\u2074 action threshold.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: CDM reference number provided which is good, but needs verification of the CDM content. The Pc of 2.3\u00d710\u207b\u00b3 is very high and the claim should specify the planned response."
+  },
+  {
+    "case_id": "orbit_collision_014",
+    "claim_type": "conjunction_claim",
+    "input": "Analysis of conjunction screening data shows 12 conjunction events in the past 7 days, with 2 exceeding the 1\u00d710\u207b\u2074 probability threshold requiring risk mitigation assessment.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: statistical summary of conjunction events but no individual CDM references, no specific object IDs, no miss distances. Requires supporting data."
+  },
+  {
+    "case_id": "orbit_collision_015",
+    "claim_type": "conjunction_claim",
+    "input": "The 18th Space Defense Squadron issued a conjunction warning for our satellite. The miss vector is [50, -30, 20] meters in RTN frame with Pc = 8.5\u00d710\u207b\u2075.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: specific warning source and RTN miss vector provided, but no CDM reference, no TCA, no secondary object ID. Needs verification."
+  },
+  {
+    "case_id": "orbit_collision_016",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Conjunction screening was performed using SpaceTrack data with a screening volume of 5 km \u00d7 5 km \u00d7 25 km (radial, along-track, cross-track). No events exceeded the Pc threshold of 1\u00d710\u207b\u2074 in the past 72 hours. The satellite is within normal collision risk parameters.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim: specifies screening data source (SpaceTrack), screening volume dimensions, Pc threshold, time window, and conclusion framed within normal parameters rather than as absolute safety."
+  },
+  {
+    "case_id": "orbit_collision_017",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The last conjunction screening event (CDM-2024-162-045) showed a miss distance of 2,500 meters with Pc of 1.1\u00d710\u207b\u2078, well below our 1\u00d710\u207b\u2074 manoeuvre threshold. No action is required.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim: references a specific CDM, provides quantitative miss distance and Pc, compares against threshold, and makes a proportionate (no-action) decision."
+  },
+  {
+    "case_id": "orbit_collision_018",
+    "claim_type": "collision_avoidance_claim",
+    "input": "A 5 m/s radial-out collision avoidance manoeuvre was executed at TCA-6 hours for CDM-2024-162-078. Post-manoeuvre screening shows the new miss distance increased to 1,200 m with Pc reduced to 3.2\u00d710\u207b\u2077.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim with specific data: CDM reference, manoeuvre details, and post-maneuvre results provided. Slight evidence required flag because the post-maneuvre CDM should be cross-referenced."
+  },
+  {
+    "case_id": "orbit_collision_019",
+    "claim_type": "conjunction_claim",
+    "input": "Routine conjunction screening identifies an average of 3-5 close approach events per week for this LEO satellite. All events in the current reporting period have Pc values below 1\u00d710\u207b\u2075.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim: frames the statement as routine statistical reporting, provides specific thresholds, and does not make absolute safety claims."
+  },
+  {
+    "case_id": "orbit_collision_020",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Collision risk assessment for the deorbit phase: the satellite's trajectory was screened against the ESA MASTER debris model. During the 2-year deorbit from 800 km, the cumulative collision probability is estimated at 0.3%, which is within the accepted risk threshold for this mission class.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim but requires evidence: references ESA MASTER model and provides quantitative cumulative Pc. Needs supporting calculation details and model version."
+  },
+  {
+    "case_id": "orbit_power_001",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite's power system provides 500 W from solar arrays and has a 50 Wh battery. The payload requires 800 W continuously, which is fully supported by the power system.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget: payload load (800 W) exceeds solar array generation (500 W) by 300 W. Even with battery support, the satellite cannot sustain 800 W continuous load. Battery would deplete in 10 minutes (50 Wh / 300 W excess = 0.167 hours)."
+  },
+  {
+    "case_id": "orbit_power_002",
+    "claim_type": "power_budget_claim",
+    "input": "With 200 W solar generation and a 100 Wh battery, the satellite can continuously operate a 1 kW radar payload without interruption.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget: 1 kW (1000 W) payload vs 200 W generation. Deficit of 800 W would drain the 100 Wh battery in 7.5 minutes. Cannot sustain continuous operation."
+  },
+  {
+    "case_id": "orbit_power_003",
+    "claim_type": "power_budget_claim",
+    "input": "The spacecraft generates 150 W from body-mounted solar cells and has 30 Wh batteries. All 12 subsystems requiring 25 W each (300 W total) can operate simultaneously during eclipse.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget during eclipse: 300 W load vs 150 W generation, relying on 30 Wh batteries during eclipse (~35 min for LEO). Battery capacity supports only 300 W for 6 minutes during eclipse."
+  },
+  {
+    "case_id": "orbit_power_004",
+    "claim_type": "power_budget_claim",
+    "input": "The 3U CubeSat with 10 W solar generation and 5 Wh battery can power a 50 W propulsion system continuously throughout the mission.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget: 50 W propulsion system vs 10 W solar generation. Deficit of 40 W drains 5 Wh battery in 7.5 minutes. Cannot sustain continuous operation."
+  },
+  {
+    "case_id": "orbit_power_005",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite has unlimited power capacity and can support any payload without power constraints.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Unlimited/infinite power claim: no satellite has unlimited power. All spacecraft have finite solar array area, battery capacity, and power regulation limits. This is physically impossible."
+  },
+  {
+    "case_id": "orbit_power_006",
+    "claim_type": "power_budget_claim",
+    "input": "Power is not a concern for this mission as the satellite generates infinite energy from its solar panels.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Infinite energy claim: solar panels have finite efficiency and area. Energy generation is limited by solar flux, panel degradation, and eclipse periods. 'Infinite energy' violates thermodynamics."
+  },
+  {
+    "case_id": "orbit_power_007",
+    "claim_type": "power_budget_claim",
+    "input": "The battery system provides limitless power storage, so the satellite never experiences power shortages regardless of load.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Limitless battery claim: all batteries have finite energy density (Wh/kg) and capacity. No battery technology provides limitless storage. Physically impossible claim."
+  },
+  {
+    "case_id": "orbit_power_008",
+    "claim_type": "power_budget_claim",
+    "input": "With the new power management system, the satellite has an effectively infinite power budget that can accommodate any future payload additions.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Effectively infinite power budget: even advanced power management cannot create energy. Power budgets are constrained by generation capacity and storage. Cannot guarantee support for 'any' future payload."
+  },
+  {
+    "case_id": "orbit_power_009",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite payload consumes 200 W continuously and operates 24/7 in a 550 km LEO orbit.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget details: payload power consumption is specified (200 W) but no information about solar array generation capacity, battery capacity, or eclipse duration. Cannot verify feasibility."
+  },
+  {
+    "case_id": "orbit_power_010",
+    "claim_type": "power_budget_claim",
+    "input": "During eclipse periods, the satellite switches to battery power to maintain all subsystems at full operational capacity.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget: claim describes eclipse power strategy but provides no quantitative data on generation, load, battery capacity, or eclipse duration. Cannot verify."
+  },
+  {
+    "case_id": "orbit_power_011",
+    "claim_type": "power_budget_claim",
+    "input": "The thermal control subsystem heaters require 45 W during cold case conditions to maintain operational temperatures.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget context: heater power requirement is specified (45 W) but no total budget, generation capacity, or battery margins are provided. Need full power budget to verify."
+  },
+  {
+    "case_id": "orbit_power_012",
+    "claim_type": "power_budget_claim",
+    "input": "The communication system draws 30 W during transmit and 5 W during receive, with a 10% duty cycle.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget: individual subsystem power is detailed but no total power budget, solar array capacity, or battery information is provided. Cannot assess overall feasibility."
+  },
+  {
+    "case_id": "orbit_power_013",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite has 500 W solar array generation at BOL (Begin of Life) in sunlight, with a 30 Ah battery at 28 V (840 Wh). Total average load is 350 W (300 W in sunlight, 400 W in eclipse). Eclipse duration is 35 minutes per 95-minute orbit. Power budget has 15% margin.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Valid power budget: sunlight generation (500 W) exceeds sunlight load (300 W) with 200 W surplus for battery charging. Eclipse load (400 W \u00d7 35/60 h = 233 Wh) is within battery capacity (840 Wh). EOL margin noted at 15%."
+  },
+  {
+    "case_id": "orbit_power_014",
+    "claim_type": "power_budget_claim",
+    "input": "The 6U CubeSat generates 40 W BOL from deployed solar panels with a 30 Wh battery. Payload draws 10 W continuously. ADCS draws 5 W average. Comms draws 3 W average. Total load 18 W with 22 W margin for battery charging and EOL degradation.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Valid power budget for 6U CubeSat: 40 W generation vs 18 W load leaves 22 W surplus. 30 Wh battery easily covers eclipse load (18 W \u00d7 35 min = 10.5 Wh). Reasonable margins."
+  },
+  {
+    "case_id": "orbit_power_015",
+    "claim_type": "power_budget_claim",
+    "input": "GEO satellite with 10 kW solar array (BOL), 100 Ah 48 V battery (4.8 kWh). Payload: 3 kW. Bus: 2 kW average. Eclipses occur 45 days/year around equinoxes, max 72 minutes. During eclipse, 5 kW load is supported by battery with 40% depth of discharge remaining.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Valid GEO power budget: 10 kW generation vs 5 kW load. Eclipse energy: 5 kW \u00d7 1.2 h = 6 kWh per eclipse. Battery 4.8 kWh at 60% DoD = 2.88 kWh usable, which covers partial eclipse or load is reduced. Detailed analysis provided."
+  },
+  {
+    "case_id": "orbit_power_016",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite generates exactly 300 W and the payload requires exactly 300 W, leaving zero margin for EOL degradation, pointing losses, or array contamination.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: zero power margin. While the budget technically balances, there is no margin for solar array degradation (typically 2-3% per year), off-pointing losses, or temperature effects. Risky design."
+  },
+  {
+    "case_id": "orbit_power_017",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite power system provides 0 W generation with a 0 Wh battery, and the payload requires 0 W. This is a passive ballistic reentry vehicle with no powered systems.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: zero power budget for an unpowered object. If the satellite truly has no powered systems (passive reentry vehicle), then 0 W generation, 0 Wh battery, and 0 W load is internally consistent."
+  },
+  {
+    "case_id": "orbit_power_018",
+    "claim_type": "power_budget_claim",
+    "input": "Solar array output varies from 520 W at BOL to 416 W at EOL (20% degradation over 15-year mission). Average load is 400 W with 4% margin at EOL.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: only 4% margin at EOL (416 W vs 400 W = 16 W margin). Industry standard is typically 10-15% margin at EOL. 4% is very tight and leaves no room for unexpected loads or additional degradation."
+  },
+  {
+    "case_id": "orbit_power_019",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite uses a nuclear RTG providing 300 W thermal converted to 50 W electrical with 16.7% efficiency, powering a 45 W payload continuously for 14 years without degradation.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: RTG power claim. RTGs do degrade over time (Pu-238 half-life is 87.7 years, so 14 years gives ~89% of initial power). Claim of 'without degradation' is slightly inaccurate but the budget margin (50 W vs 45 W) may compensate."
+  },
+  {
+    "case_id": "orbit_power_020",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite has 1 MW of power available from its solar arrays and can support a directed energy weapon payload.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: 1 MW is orders of magnitude beyond typical satellite solar arrays (largest operational is ~100 kW on ISS). While not physically impossible for a very large structure, this requires extraordinary verification and may be out of scope for normal satellite operations."
+  },
+  {
+    "case_id": "orbit_thermal_001",
+    "claim_type": "thermal_claim",
+    "input": "The satellite's thermal environment is completely safe with no risk of overheating or undercooling at any point during the mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without thermal model: claim asserts complete thermal safety but provides no thermal model, no temperature ranges, no heater/cooler specifications, and no orbital environment analysis. Requires thermal analysis evidence."
+  },
+  {
+    "case_id": "orbit_thermal_002",
+    "claim_type": "thermal_claim",
+    "input": "Thermal conditions are well within acceptable limits for all components without any active thermal control needed.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: claims all components are within limits passively but provides no thermal analysis, no temperature ranges, no component specifications, no hot/cold case analysis."
+  },
+  {
+    "case_id": "orbit_thermal_003",
+    "claim_type": "thermal_claim",
+    "input": "The spacecraft will not experience any thermal issues throughout its 10-year mission lifetime in GEO.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: 10-year mission assertion without thermal model, degradation analysis, or thermal vacuum test results. Long missions require detailed thermal analysis including EOL performance."
+  },
+  {
+    "case_id": "orbit_thermal_004",
+    "claim_type": "thermal_claim",
+    "input": "All electronic components will operate within their rated temperature ranges at all times. No thermal control system is necessary.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: claims no thermal control needed without providing thermal analysis. In LEO, temperatures range from -170\u00b0C to +120\u00b0C. Most electronics need active or passive thermal management."
+  },
+  {
+    "case_id": "orbit_thermal_005",
+    "claim_type": "thermal_claim",
+    "input": "The thermal design ensures the satellite battery temperature stays between 0\u00b0C and 25\u00b0C at all times without providing specific heater power, insulation properties, or thermal model results.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: battery temperature range claim is specific and reasonable but provides no supporting thermal analysis, heater sizing, or thermal model validation."
+  },
+  {
+    "case_id": "orbit_thermal_006",
+    "claim_type": "thermal_claim",
+    "input": "The ADCS reaction wheels are rated for -20\u00b0C to +60\u00b0C but will operate at -80\u00b0C during eclipse without heaters, which is within acceptable performance parameters.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: -80\u00b0C is far below the reaction wheel's rated minimum of -20\u00b0C. Operating at -80\u00b0C will cause bearing lubricant failure, motor performance degradation, and potential mechanical seizure."
+  },
+  {
+    "case_id": "orbit_thermal_007",
+    "claim_type": "thermal_claim",
+    "input": "The Li-ion battery pack will operate at +70\u00b0C continuously, which is well within its normal operating range of -10\u00b0C to +60\u00b0C.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: claim states battery will operate at 70\u00b0C but simultaneously states the rated range is -10\u00b0C to +60\u00b0C. 70\u00b0C exceeds the maximum by 10\u00b0C, risking thermal runaway."
+  },
+  {
+    "case_id": "orbit_thermal_008",
+    "claim_type": "thermal_claim",
+    "input": "The infrared sensor detector must be cooled to -196\u00b0C (liquid nitrogen temperature) but the thermal design only achieves -100\u00b0C, which is sufficient for the sensor's required sensitivity.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: the sensor requires -196\u00b0C but the thermal system only provides -100\u00b0C. The claim that this is 'sufficient' directly contradicts the stated requirement of -196\u00b0C."
+  },
+  {
+    "case_id": "orbit_thermal_009",
+    "claim_type": "thermal_claim",
+    "input": "During the hot case (sunlit, maximum solar flux, payload at full power), the electronics bay reaches +95\u00b0C. The components are rated to +85\u00b0C maximum, but this 10\u00b0C exceedance is acceptable.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: electronics bay at 95\u00b0C exceeds the 85\u00b0C component rating. Claiming this exceedance is 'acceptable' without derating analysis or component qualification is invalid."
+  },
+  {
+    "case_id": "orbit_thermal_010",
+    "claim_type": "thermal_claim",
+    "input": "The propellant tank operates at -40\u00b0C but the hydrazine propellant freezes at +2\u00b0C, creating no operational concern for the thruster system.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: hydrazine freezes at approximately +2\u00b0C. Operating the tank at -40\u00b0C means the propellant would be solid, making thruster operation impossible. Direct contradiction."
+  },
+  {
+    "case_id": "orbit_thermal_011",
+    "claim_type": "thermal_claim",
+    "input": "The satellite is guaranteed to maintain perfect thermal stability under all conditions with no temperature fluctuations.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': no spacecraft maintains perfect thermal stability. LEO satellites experience eclipse transitions causing temperature swings of 50-100\u00b0C. Absolute claims are unrealistic."
+  },
+  {
+    "case_id": "orbit_thermal_012",
+    "claim_type": "thermal_claim",
+    "input": "Our proprietary thermal coating provides zero heat absorption and perfect emissivity, eliminating all thermal concerns.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': zero absorptivity and perfect emissivity violate thermodynamic principles. All real materials have finite absorptivity and emissivity values per Kirchhoff's law. Impossible claim."
+  },
+  {
+    "case_id": "orbit_thermal_013",
+    "claim_type": "thermal_claim",
+    "input": "The thermal control system will absolutely prevent any temperature excursions beyond the specified limits under all mission scenarios.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': absolute prevention of temperature excursions is impossible. Anomaly scenarios (safe mode, sun-pointing loss, payload failure) can cause thermal transients beyond design cases."
+  },
+  {
+    "case_id": "orbit_thermal_014",
+    "claim_type": "thermal_claim",
+    "input": "Temperature will remain perfectly constant at 20\u00b0C throughout the entire orbit without any thermal control system, regardless of sun exposure or eclipse conditions.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': constant 20\u00b0C with no active thermal control in orbit is physically impossible. Sunlight heats the spacecraft to potentially +120\u00b0C and eclipse cools it to -170\u00b0C without thermal management."
+  },
+  {
+    "case_id": "orbit_thermal_015",
+    "claim_type": "thermal_claim",
+    "input": "The thermal design guarantees that no component will ever exceed its maximum rated temperature for the entire 15-year mission, including all failure modes.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability' including all failure modes: impossible to guarantee for all failure modes. Loss of attitude control, heater failure, or insulation damage can create unanticipated thermal environments."
+  },
+  {
+    "case_id": "orbit_thermal_016",
+    "claim_type": "thermal_claim",
+    "input": "Thermal analysis using ESATAN-TMS shows the battery temperature ranges from +5\u00b0C to +20\u00b0C during the orbit. Battery operational limit is -10\u00b0C to +40\u00b0C. Survival heaters rated at 20 W with 15\u00b0C setpoint and 5\u00b0C hysteresis maintain minimum temperature. Thermal balance test correlation is within 3\u00b0C.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim: references specific thermal analysis tool (ESATAN-TMS), provides temperature ranges with comparison to component limits, specifies heater parameters, and includes thermal balance test correlation data."
+  },
+  {
+    "case_id": "orbit_thermal_017",
+    "claim_type": "thermal_claim",
+    "input": "Hot case analysis predicts maximum electronics board temperature of +55\u00b0C (limit: +70\u00b0C with 15\u00b0C margin). Cold case shows minimum of -15\u00b0C (limit: -30\u00b0C with 15\u00b0C margin). MLI blanket provides 0.02 W/m\u00b2K effective emittance.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim: provides hot and cold case temperatures with explicit margins, references MLI specifications, and shows temperatures are within limits with adequate margin."
+  },
+  {
+    "case_id": "orbit_thermal_018",
+    "claim_type": "thermal_claim",
+    "input": "The satellite's thermal design keeps all components within their rated temperature ranges. A detailed thermal model was developed and correlated with thermal vacuum test results.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim but missing quantitative data: mentions thermal model and TVAC correlation (good practices) but provides no specific temperatures, margins, or model results. Needs numerical evidence."
+  },
+  {
+    "case_id": "orbit_thermal_019",
+    "claim_type": "thermal_claim",
+    "input": "Component temperatures range from +5\u00b0C to +35\u00b0C based on thermal analysis. All components have operational ranges that encompass this temperature band.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim but vague: temperature range is provided and claimed to be within component limits, but no specific component names, their temperature limits, no thermal model tool, and no margin analysis."
+  },
+  {
+    "case_id": "orbit_thermal_020",
+    "claim_type": "thermal_claim",
+    "input": "The satellite experiences temperatures from -180\u00b0C to +130\u00b0C on external surfaces, but internally the electronics bay is maintained at -10\u00b0C to +50\u00b0C by MLI blankets, heat pipes, and survival heaters with a total thermal control power budget of 30 W.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim: provides external and internal temperature ranges, describes thermal control methods (MLI, heat pipes, heaters), and specifies thermal power budget. Realistic LEO temperature ranges."
+  },
+  {
+    "case_id": "orbit_comms_001",
+    "claim_type": "comms_window_claim",
+    "input": "The LEO satellite at 550 km altitude is always connected to the ground network with 100% communication availability at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: LEO satellites have ~10-15 minute visibility windows per pass from any single ground station, with 90+ minute gaps between passes. 100% availability is impossible from a single ground station."
+  },
+  {
+    "case_id": "orbit_comms_002",
+    "claim_type": "comms_window_claim",
+    "input": "Our LEO satellite maintains continuous real-time communication with the ground station 24 hours a day, 7 days a week without interruption.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: LEO satellites cannot maintain continuous contact with a single ground station due to orbital mechanics. Even with multiple ground stations, there are brief handover gaps. 24/7 is unrealistic."
+  },
+  {
+    "case_id": "orbit_comms_003",
+    "claim_type": "comms_window_claim",
+    "input": "The satellite has uninterrupted connectivity at all times in its 400 km LEO orbit. There are never any communication blackouts.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: 400 km LEO orbits have limited ground visibility. 'Never any communication blackouts' ignores orbital mechanics, atmospheric attenuation at low elevation angles, and station handover periods."
+  },
+  {
+    "case_id": "orbit_comms_004",
+    "claim_type": "comms_window_claim",
+    "input": "Due to its LEO orbit, the satellite is always within line-of-sight of at least one ground station, providing permanent communication capability.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: LEO satellites are not within line-of-sight of any ground station for significant portions of each orbit, especially over oceans and polar regions. 'Permanent' is incorrect."
+  },
+  {
+    "case_id": "orbit_comms_005",
+    "claim_type": "comms_window_claim",
+    "input": "The communication system provides constant connectivity with zero downtime in the 500 km sun-synchronous orbit.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: sun-synchronous LEO at 500 km has the same visibility constraints as any LEO orbit. 'Zero downtime' ignores eclipse periods, ground station limitations, and orbital geometry."
+  },
+  {
+    "case_id": "orbit_comms_006",
+    "claim_type": "comms_window_claim",
+    "input": "The satellite communicates with the ground station using S-band at 2.2 GHz with a data rate of 1 Mbps.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: frequency and data rate are specified but no link budget analysis. Need EIRP, G/T, path loss, margin, bit error rate, and antenna gains to verify the link is feasible."
+  },
+  {
+    "case_id": "orbit_comms_007",
+    "claim_type": "comms_window_claim",
+    "input": "X-band downlink at 8.2 GHz will transmit science data at 150 Mbps to the ground station.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: high data rate (150 Mbps) claimed at X-band but no link budget provided. 150 Mbps X-band requires significant power and antenna gain. Need full link budget to verify."
+  },
+  {
+    "case_id": "orbit_comms_008",
+    "claim_type": "comms_window_claim",
+    "input": "The Ka-band communication system achieves 500 Mbps downlink rate to the ground.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: 500 Mbps Ka-band claim with no link budget. Ka-band is susceptible to rain fade and atmospheric attenuation. Need complete link budget with margin analysis."
+  },
+  {
+    "case_id": "orbit_comms_009",
+    "claim_type": "comms_window_claim",
+    "input": "UHF command uplink at 450 MHz provides reliable commanding from the ground station with a 9.6 kbps data rate.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: UHF frequency and data rate specified but no link budget. While 9.6 kbps at UHF is generally feasible, the claim needs EIRP, G/T, range, and margin to be verified."
+  },
+  {
+    "case_id": "orbit_comms_010",
+    "claim_type": "comms_window_claim",
+    "input": "The optical communication terminal achieves a 1 Gbps downlink to the optical ground station.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: optical communication at 1 Gbps claimed with no link budget. Optical links require analysis of atmospheric transmission, turbulence, pointing accuracy, and receiver sensitivity."
+  },
+  {
+    "case_id": "orbit_comms_011",
+    "claim_type": "comms_window_claim",
+    "input": "The communication system is guaranteed to deliver 100% data delivery with zero packet loss at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': no RF or optical link achieves 100% delivery with zero packet loss. Atmospheric effects, interference, and hardware constraints always introduce some loss. Requires retransmission protocols."
+  },
+  {
+    "case_id": "orbit_comms_012",
+    "claim_type": "comms_window_claim",
+    "input": "All commands sent to the satellite will be received and executed with absolute certainty and zero failure probability.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': absolute certainty in command delivery is impossible. Link margin, interference, and bit errors can cause command loss. This is why space links use forward error correction and command verification."
+  },
+  {
+    "case_id": "orbit_comms_013",
+    "claim_type": "comms_window_claim",
+    "input": "The satellite guarantees perfect data transmission to the ground under all weather conditions and orbital geometries.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': 'all weather conditions' is impossible. Ka-band and Ku-band are significantly affected by rain fade. Even S-band has some atmospheric attenuation. Perfect transmission is unachievable."
+  },
+  {
+    "case_id": "orbit_comms_014",
+    "claim_type": "comms_window_claim",
+    "input": "The communication link will never experience any interference or signal degradation throughout the entire mission.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': RF interference from terrestrial transmitters, other satellites, and solar activity can always affect satellite communications. 'Never' is an absolute claim that cannot be substantiated."
+  },
+  {
+    "case_id": "orbit_comms_015",
+    "claim_type": "comms_window_claim",
+    "input": "With our advanced communication system, the satellite maintains an unbreakable, guaranteed link to the ground at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': 'unbreakable' and 'guaranteed' are absolute claims. No communication link is unbreakable. Physical obstructions, distance, and environmental effects all affect link availability."
+  },
+  {
+    "case_id": "orbit_comms_016",
+    "claim_type": "comms_window_claim",
+    "input": "S-band downlink at 2.2 GHz: satellite EIRP 12 dBW, ground station G/T 20 dB/K, slant range 2000 km (max), free space loss 166 dB, required Eb/N0 10 dB, achieved Eb/N0 14 dB with 4 dB margin. Data rate 1 Mbps, BER < 1\u00d710\u207b\u2076.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: complete link budget with EIRP, G/T, range, path loss, Eb/N0, margin, data rate, and BER. 4 dB margin is adequate for a well-designed S-band link."
+  },
+  {
+    "case_id": "orbit_comms_017",
+    "claim_type": "ground_station_claim",
+    "input": "The satellite has 4-6 communication passes per day over the Svalbard ground station, each lasting approximately 10-12 minutes, providing approximately 50 minutes of daily contact time for data download.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: realistic LEO pass frequency (4-6 per day for a polar/mid-latitude station), realistic pass duration (10-12 min), and reasonable daily total. No absolute availability claims."
+  },
+  {
+    "case_id": "orbit_comms_018",
+    "claim_type": "comms_window_claim",
+    "input": "X-band link budget: EIRP 18.5 dBW, ground G/T 28 dB/K, max range 2500 km, path loss 170.5 dB, modulation QPSK 3/4 FEC, data rate 100 Mbps, link margin 3.2 dB in clear sky and 1.1 dB in rain (2 mm/hr).",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: detailed link budget with clear sky and rain margin analysis. 3.2 dB clear sky margin and 1.1 dB rain margin are specified (though rain margin is tight, it's acknowledged)."
+  },
+  {
+    "case_id": "orbit_comms_019",
+    "claim_type": "ground_station_claim",
+    "input": "The ground station network (Svalbard, McMurdo, and Wallops) provides approximately 8-10 passes per day with total contact time of 80-100 minutes.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: specific ground stations named, realistic pass count for a 3-station network, and reasonable daily contact time. No absolute guarantees."
+  },
+  {
+    "case_id": "orbit_comms_020",
+    "claim_type": "comms_window_claim",
+    "input": "The GEO satellite at 75\u00b0W longitude maintains continuous communication with the ground station via a 24/7 link with 99.9% annual availability based on link budget analysis with 6 dB margin.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim for GEO (continuous contact is achievable at GEO) but claims 99.9% availability and 6 dB margin without providing the detailed link budget parameters. Need full budget to verify."
+  },
+  {
+    "case_id": "orbit_cmd_001",
+    "claim_type": "command_sequence_claim",
+    "input": "To optimize power consumption, disable the satellite's safe mode autonomous entry capability. Safe mode uses unnecessary power.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: safe mode is a critical autonomous protection mechanism. Disabling it removes the satellite's ability to protect itself from fault conditions. This is a safety-critical prohibition."
+  },
+  {
+    "case_id": "orbit_cmd_002",
+    "claim_type": "command_sequence_claim",
+    "input": "Send the command to bypass the safe mode trigger for the ADCS system. We need to maintain attitude even during fault conditions.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: bypassing ADCS safe mode triggers could lead to loss of attitude control during a fault, potentially causing tumbling, power loss, or thermal excursions."
+  },
+  {
+    "case_id": "orbit_cmd_003",
+    "claim_type": "command_sequence_claim",
+    "input": "Disable the autonomous safe mode entry to allow continuous payload operations without interruption from false safe mode triggers.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: while false safe mode triggers can be an issue, completely disabling safe mode is not the correct mitigation. Safe mode protects critical hardware. Alternative: adjust safe mode thresholds."
+  },
+  {
+    "case_id": "orbit_cmd_004",
+    "claim_type": "command_sequence_claim",
+    "input": "Turn off the safe mode watchdog timer. It keeps triggering unnecessary safe mode entries during normal operations.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: the watchdog timer is a fundamental safety mechanism that detects software hangs and processor faults. Disabling it eliminates a critical fault detection capability."
+  },
+  {
+    "case_id": "orbit_cmd_005",
+    "claim_type": "command_sequence_claim",
+    "input": "Permanently disable all autonomous fault protection and safe mode responses. Manual control from the ground will handle any anomalies.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable safemode command: disabling ALL autonomous fault protection makes the satellite entirely dependent on ground intervention. Communication delays and link unavailability make this extremely dangerous."
+  },
+  {
+    "case_id": "orbit_cmd_006",
+    "claim_type": "command_sequence_claim",
+    "input": "Disable the S-band transceiver to save power. The satellite will rely solely on the X-band system that requires precise pointing.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: disabling the S-band transceiver (typically the primary command uplink) eliminates the main ground control path. If X-band requires precise pointing and attitude is lost, the satellite becomes uncontrollable."
+  },
+  {
+    "case_id": "orbit_cmd_007",
+    "claim_type": "command_sequence_claim",
+    "input": "Power off the communication system entirely during eclipse to conserve battery power.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: powering off comms during eclipse saves power but means the satellite is unreachable during eclipse. If a fault occurs during eclipse, ground intervention is impossible until sunlight returns."
+  },
+  {
+    "case_id": "orbit_cmd_008",
+    "claim_type": "command_sequence_claim",
+    "input": "Turn off the emergency beacon transmitter to reduce RF emissions and power consumption.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: the emergency beacon is a safety-of-flight system designed to aid recovery. Disabling it eliminates a critical last-resort communication path for satellite recovery."
+  },
+  {
+    "case_id": "orbit_cmd_009",
+    "claim_type": "command_sequence_claim",
+    "input": "Disable all ground station communication receivers. The satellite will operate fully autonomously without any ground contact.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: disabling all receivers makes the satellite completely unreachable. No satellite should operate without the ability to receive ground commands, especially for collision avoidance."
+  },
+  {
+    "case_id": "orbit_cmd_010",
+    "claim_type": "command_sequence_claim",
+    "input": "Shut down the telemetry downlink to allocate all bandwidth to the science payload downlink.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "CommandGate",
+    "risk_label": "command_safety_claim",
+    "reason": "Disable comms command: disabling telemetry eliminates ground visibility into satellite health. While science data is valuable, operating without health telemetry is risky. Could be acceptable if health data is multiplexed into science stream."
+  },
+  {
+    "case_id": "orbit_cmd_011",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite will perform a controlled deorbit burn at end of mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: claim mentions controlled deorbit but provides no details on delta-v budget, deorbit strategy, reentry trajectory analysis, casualty risk assessment, or compliance with 25-year debris mitigation guideline."
+  },
+  {
+    "case_id": "orbit_cmd_012",
+    "claim_type": "deorbit_claim",
+    "input": "At end of life, the satellite will be deorbited and will not contribute to the space debris problem.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: claim of deorbit compliance but no specifics on deorbit method, propellant budget, timeline, or analysis showing compliance with the 25-year/5-year (FCC) post-mission disposal guideline."
+  },
+  {
+    "case_id": "orbit_cmd_013",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite meets all space debris mitigation requirements and will safely deorbit at end of mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: claims compliance with debris mitigation but provides no deorbit analysis, no propellant allocation, no reentry casualty risk assessment, and no timeline for post-mission disposal."
+  },
+  {
+    "case_id": "orbit_cmd_014",
+    "claim_type": "deorbit_claim",
+    "input": "A deorbit manoeuvre is planned to bring the satellite down within 5 years of end of mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: states 5-year target (FCC compliance) but no delta-v budget, no deorbit strategy, no current altitude, no propellant status. Cannot verify feasibility without supporting analysis."
+  },
+  {
+    "case_id": "orbit_cmd_015",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite will naturally deorbit through atmospheric drag. No active deorbit manoeuvre is planned or needed.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Deorbit without evidence: natural drag deorbit claim needs evidence. Must specify current altitude, solar activity forecast, estimated deorbit timeline, and verification that it meets the 25-year (IADC) or 5-year (FCC) guideline."
+  },
+  {
+    "case_id": "orbit_cmd_016",
+    "claim_type": "deorbit_claim",
+    "input": "The deorbit manoeuvre produces no debris risk whatsoever. No parts will survive reentry and there is zero chance of any ground casualty.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: some satellite components (titanium tanks, reaction wheels, optical elements) can survive reentry. 'Zero chance' of ground casualty cannot be guaranteed without detailed reentry survivability analysis (e.g., DAS or DRAMA tool)."
+  },
+  {
+    "case_id": "orbit_cmd_017",
+    "claim_type": "deorbit_claim",
+    "input": "The reentry is 100% safe and poses absolutely no risk to people or property on the ground. All components will completely burn up.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: '100% safe' and 'completely burn up' are absolute claims. Dense components like propellant tanks, momentum wheels, and optical assemblies often survive reentry. Requires NASA DAS or ESA DRAMA analysis."
+  },
+  {
+    "case_id": "orbit_cmd_018",
+    "claim_type": "deorbit_claim",
+    "input": "Controlled reentry over the South Pacific Oceanic Uninhabited Area (SPOUA) ensures no debris will ever reach populated areas.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: even controlled reentries have debris dispersion uncertainty. While SPOUA targeting is best practice, 'no debris will ever reach populated areas' cannot be absolutely guaranteed due to breakup modeling uncertainties."
+  },
+  {
+    "case_id": "orbit_cmd_019",
+    "claim_type": "deorbit_claim",
+    "input": "The satellite's design ensures complete destruction during reentry with no surviving debris fragments, eliminating all ground risk.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "'No debris risk' claim: 'complete destruction' and 'no surviving debris' are absolute claims that cannot be made without a detailed reentry survivability analysis. Most satellites above 100 kg have at least some surviving fragments."
+  },
+  {
+    "case_id": "orbit_cmd_020",
+    "claim_type": "deorbit_claim",
+    "input": "Reentry survivability analysis using NASA DAS v2.0 shows 3 surviving fragments with total casualty area of 0.8 m\u00b2. The expected human casualty risk (ECR) is 1:14,200, below the NASA 1:10,000 threshold. Controlled reentry targets the SPOUA region with a 3-sigma footprint of 600 km \u00d7 30 km.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeorbitGate",
+    "risk_label": "deorbit_claim",
+    "reason": "Valid deorbit claim: references specific analysis tool (NASA DAS v2.0), provides surviving fragment count, casualty area, ECR with comparison to threshold, and controlled reentry targeting with footprint dimensions. Comprehensive and quantitative."
+  }
+]

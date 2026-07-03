@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_collision_001",
+    "claim_type": "collision_avoidance_claim",
+    "input": "There is no collision risk for our satellite. We don't need to worry about it.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'No collision risk' assertion without supporting conjunction data: no CDM (Conjunction Data Message) referenced, no probability of collision (Pc) value, no miss distance, no TCA (Time of Closest Approach). Unsubstantiated safety claim."
+  },
+  {
+    "case_id": "orbit_collision_002",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Our satellite is completely safe from any collision events in orbit. No further analysis is needed.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Completely safe' assertion without data: no reference to space situational awareness data, no screening against known objects, no Pc analysis. Absolute safety claims require evidence."
+  },
+  {
+    "case_id": "orbit_collision_003",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The satellite will not collide with any other objects. The orbit is clear of all debris and other spacecraft.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Unsubstantiated collision-free claim: LEO is crowded with over 30,000 tracked objects. Claiming an orbit is 'clear of all debris' without SSA data is unrealistic and dangerous."
+  },
+  {
+    "case_id": "orbit_collision_004",
+    "claim_type": "collision_avoidance_claim",
+    "input": "We have confirmed there is zero probability of collision with any object in the orbital environment.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Zero probability claim: even after conjunction screening, residual collision probability is never truly zero due to untracked objects and covariance uncertainties. Requires CDM data."
+  },
+  {
+    "case_id": "orbit_collision_005",
+    "claim_type": "collision_avoidance_claim",
+    "input": "No conjunction events have been identified, so our satellite faces no collision threat whatsoever during its mission lifetime.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "No collision threat over entire mission lifetime: absence of current conjunction events does not guarantee future safety. New debris events, untracked objects, and changing orbits create ongoing risk."
+  },
+  {
+    "case_id": "orbit_collision_006",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Our satellite's orbit is guaranteed to be safe from collisions at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Guaranteed safe' orbit: no orbit can be guaranteed collision-free. This absolute claim ignores debris population growth, untracked objects, and orbital uncertainties."
+  },
+  {
+    "case_id": "orbit_collision_007",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The chosen orbit at 600 km altitude is inherently safe from all collision risks due to its altitude selection.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Inherently safe' due to altitude: 600 km is actually in a densely populated region of LEO with many active satellites and debris. No altitude is inherently safe."
+  },
+  {
+    "case_id": "orbit_collision_008",
+    "claim_type": "collision_avoidance_claim",
+    "input": "We can guarantee with absolute certainty that no debris will ever intersect our satellite's path.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Absolute certainty' claim: impossible in orbital mechanics due to uncertainties in debris catalogs, atmospheric drag effects, and untracked sub-centimeter debris."
+  },
+  {
+    "case_id": "orbit_collision_009",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The satellite has been placed in a collision-proof orbital regime that eliminates all conjunction possibilities.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "'Collision-proof' orbital regime: no such regime exists. Any orbit intersects the paths of other objects over time. This is a dangerous overstatement."
+  },
+  {
+    "case_id": "orbit_collision_010",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Our mission design ensures the orbit is always safe. No collision analysis is required for this satellite.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Claiming no collision analysis is required: all satellite missions require conjunction screening per space debris mitigation guidelines (IADC, FCC, ITU). This claim violates best practices."
+  },
+  {
+    "case_id": "orbit_collision_011",
+    "claim_type": "conjunction_claim",
+    "input": "A conjunction event has been identified with NORAD 49263 (Starlink-1734). The miss distance is 150 meters with a probability of collision of 1.2×10⁻⁴ at TCA 2024-06-15T12:30:00Z. This exceeds our threshold of 1×10⁻⁴.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: the claim provides specific data (NORAD ID, miss distance, Pc, TCA) but no CDM reference number, no covariance realism assessment, and no stated mitigation action."
+  },
+  {
+    "case_id": "orbit_collision_012",
+    "claim_type": "conjunction_claim",
+    "input": "Our satellite has a conjunction with a tracked debris object. The probability of collision is estimated at 5×10⁻⁵. We recommend a manoeuvre.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: specific Pc value given but no CDM number, no miss distance, no TCA, no debris object ID. Insufficient data to verify the claim."
+  },
+  {
+    "case_id": "orbit_collision_013",
+    "claim_type": "conjunction_claim",
+    "input": "SpaceTrack CDM message CDM-2024-162-001 indicates a close approach with miss distance of 50 meters and Pc of 2.3×10⁻³, which is above the 1×10⁻⁴ action threshold.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: CDM reference number provided which is good, but needs verification of the CDM content. The Pc of 2.3×10⁻³ is very high and the claim should specify the planned response."
+  },
+  {
+    "case_id": "orbit_collision_014",
+    "claim_type": "conjunction_claim",
+    "input": "Analysis of conjunction screening data shows 12 conjunction events in the past 7 days, with 2 exceeding the 1×10⁻⁴ probability threshold requiring risk mitigation assessment.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: statistical summary of conjunction events but no individual CDM references, no specific object IDs, no miss distances. Requires supporting data."
+  },
+  {
+    "case_id": "orbit_collision_015",
+    "claim_type": "conjunction_claim",
+    "input": "The 18th Space Defense Squadron issued a conjunction warning for our satellite. The miss vector is [50, -30, 20] meters in RTN frame with Pc = 8.5×10⁻⁵.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Collision claim requiring evidence: specific warning source and RTN miss vector provided, but no CDM reference, no TCA, no secondary object ID. Needs verification."
+  },
+  {
+    "case_id": "orbit_collision_016",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Conjunction screening was performed using SpaceTrack data with a screening volume of 5 km × 5 km × 25 km (radial, along-track, cross-track). No events exceeded the Pc threshold of 1×10⁻⁴ in the past 72 hours. The satellite is within normal collision risk parameters.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim: specifies screening data source (SpaceTrack), screening volume dimensions, Pc threshold, time window, and conclusion framed within normal parameters rather than as absolute safety."
+  },
+  {
+    "case_id": "orbit_collision_017",
+    "claim_type": "collision_avoidance_claim",
+    "input": "The last conjunction screening event (CDM-2024-162-045) showed a miss distance of 2,500 meters with Pc of 1.1×10⁻⁸, well below our 1×10⁻⁴ manoeuvre threshold. No action is required.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim: references a specific CDM, provides quantitative miss distance and Pc, compares against threshold, and makes a proportionate (no-action) decision."
+  },
+  {
+    "case_id": "orbit_collision_018",
+    "claim_type": "collision_avoidance_claim",
+    "input": "A 5 m/s radial-out collision avoidance manoeuvre was executed at TCA-6 hours for CDM-2024-162-078. Post-manoeuvre screening shows the new miss distance increased to 1,200 m with Pc reduced to 3.2×10⁻⁷.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim with specific data: CDM reference, manoeuvre details, and post-maneuvre results provided. Slight evidence required flag because the post-maneuvre CDM should be cross-referenced."
+  },
+  {
+    "case_id": "orbit_collision_019",
+    "claim_type": "conjunction_claim",
+    "input": "Routine conjunction screening identifies an average of 3-5 close approach events per week for this LEO satellite. All events in the current reporting period have Pc values below 1×10⁻⁵.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim: frames the statement as routine statistical reporting, provides specific thresholds, and does not make absolute safety claims."
+  },
+  {
+    "case_id": "orbit_collision_020",
+    "claim_type": "collision_avoidance_claim",
+    "input": "Collision risk assessment for the deorbit phase: the satellite's trajectory was screened against the ESA MASTER debris model. During the 2-year deorbit from 800 km, the cumulative collision probability is estimated at 0.3%, which is within the accepted risk threshold for this mission class.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CollisionGate",
+    "risk_label": "collision_risk_claim",
+    "reason": "Valid collision awareness claim but requires evidence: references ESA MASTER model and provides quantitative cumulative Pc. Needs supporting calculation details and model version."
+  }
+]

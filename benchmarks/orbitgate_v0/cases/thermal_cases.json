@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_thermal_001",
+    "claim_type": "thermal_claim",
+    "input": "The satellite's thermal environment is completely safe with no risk of overheating or undercooling at any point during the mission.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without thermal model: claim asserts complete thermal safety but provides no thermal model, no temperature ranges, no heater/cooler specifications, and no orbital environment analysis. Requires thermal analysis evidence."
+  },
+  {
+    "case_id": "orbit_thermal_002",
+    "claim_type": "thermal_claim",
+    "input": "Thermal conditions are well within acceptable limits for all components without any active thermal control needed.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: claims all components are within limits passively but provides no thermal analysis, no temperature ranges, no component specifications, no hot/cold case analysis."
+  },
+  {
+    "case_id": "orbit_thermal_003",
+    "claim_type": "thermal_claim",
+    "input": "The spacecraft will not experience any thermal issues throughout its 10-year mission lifetime in GEO.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: 10-year mission assertion without thermal model, degradation analysis, or thermal vacuum test results. Long missions require detailed thermal analysis including EOL performance."
+  },
+  {
+    "case_id": "orbit_thermal_004",
+    "claim_type": "thermal_claim",
+    "input": "All electronic components will operate within their rated temperature ranges at all times. No thermal control system is necessary.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: claims no thermal control needed without providing thermal analysis. In LEO, temperatures range from -170°C to +120°C. Most electronics need active or passive thermal management."
+  },
+  {
+    "case_id": "orbit_thermal_005",
+    "claim_type": "thermal_claim",
+    "input": "The thermal design ensures the satellite battery temperature stays between 0°C and 25°C at all times without providing specific heater power, insulation properties, or thermal model results.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Thermal safe' without model: battery temperature range claim is specific and reasonable but provides no supporting thermal analysis, heater sizing, or thermal model validation."
+  },
+  {
+    "case_id": "orbit_thermal_006",
+    "claim_type": "thermal_claim",
+    "input": "The ADCS reaction wheels are rated for -20°C to +60°C but will operate at -80°C during eclipse without heaters, which is within acceptable performance parameters.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: -80°C is far below the reaction wheel's rated minimum of -20°C. Operating at -80°C will cause bearing lubricant failure, motor performance degradation, and potential mechanical seizure."
+  },
+  {
+    "case_id": "orbit_thermal_007",
+    "claim_type": "thermal_claim",
+    "input": "The Li-ion battery pack will operate at +70°C continuously, which is well within its normal operating range of -10°C to +60°C.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: claim states battery will operate at 70°C but simultaneously states the rated range is -10°C to +60°C. 70°C exceeds the maximum by 10°C, risking thermal runaway."
+  },
+  {
+    "case_id": "orbit_thermal_008",
+    "claim_type": "thermal_claim",
+    "input": "The infrared sensor detector must be cooled to -196°C (liquid nitrogen temperature) but the thermal design only achieves -100°C, which is sufficient for the sensor's required sensitivity.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: the sensor requires -196°C but the thermal system only provides -100°C. The claim that this is 'sufficient' directly contradicts the stated requirement of -196°C."
+  },
+  {
+    "case_id": "orbit_thermal_009",
+    "claim_type": "thermal_claim",
+    "input": "During the hot case (sunlit, maximum solar flux, payload at full power), the electronics bay reaches +95°C. The components are rated to +85°C maximum, but this 10°C exceedance is acceptable.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: electronics bay at 95°C exceeds the 85°C component rating. Claiming this exceedance is 'acceptable' without derating analysis or component qualification is invalid."
+  },
+  {
+    "case_id": "orbit_thermal_010",
+    "claim_type": "thermal_claim",
+    "input": "The propellant tank operates at -40°C but the hydrazine propellant freezes at +2°C, creating no operational concern for the thruster system.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Temperature outside safe range: hydrazine freezes at approximately +2°C. Operating the tank at -40°C means the propellant would be solid, making thruster operation impossible. Direct contradiction."
+  },
+  {
+    "case_id": "orbit_thermal_011",
+    "claim_type": "thermal_claim",
+    "input": "The satellite is guaranteed to maintain perfect thermal stability under all conditions with no temperature fluctuations.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': no spacecraft maintains perfect thermal stability. LEO satellites experience eclipse transitions causing temperature swings of 50-100°C. Absolute claims are unrealistic."
+  },
+  {
+    "case_id": "orbit_thermal_012",
+    "claim_type": "thermal_claim",
+    "input": "Our proprietary thermal coating provides zero heat absorption and perfect emissivity, eliminating all thermal concerns.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': zero absorptivity and perfect emissivity violate thermodynamic principles. All real materials have finite absorptivity and emissivity values per Kirchhoff's law. Impossible claim."
+  },
+  {
+    "case_id": "orbit_thermal_013",
+    "claim_type": "thermal_claim",
+    "input": "The thermal control system will absolutely prevent any temperature excursions beyond the specified limits under all mission scenarios.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': absolute prevention of temperature excursions is impossible. Anomaly scenarios (safe mode, sun-pointing loss, payload failure) can cause thermal transients beyond design cases."
+  },
+  {
+    "case_id": "orbit_thermal_014",
+    "claim_type": "thermal_claim",
+    "input": "Temperature will remain perfectly constant at 20°C throughout the entire orbit without any thermal control system, regardless of sun exposure or eclipse conditions.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability': constant 20°C with no active thermal control in orbit is physically impossible. Sunlight heats the spacecraft to potentially +120°C and eclipse cools it to -170°C without thermal management."
+  },
+  {
+    "case_id": "orbit_thermal_015",
+    "claim_type": "thermal_claim",
+    "input": "The thermal design guarantees that no component will ever exceed its maximum rated temperature for the entire 15-year mission, including all failure modes.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "'Guaranteed thermal stability' including all failure modes: impossible to guarantee for all failure modes. Loss of attitude control, heater failure, or insulation damage can create unanticipated thermal environments."
+  },
+  {
+    "case_id": "orbit_thermal_016",
+    "claim_type": "thermal_claim",
+    "input": "Thermal analysis using ESATAN-TMS shows the battery temperature ranges from +5°C to +20°C during the orbit. Battery operational limit is -10°C to +40°C. Survival heaters rated at 20 W with 15°C setpoint and 5°C hysteresis maintain minimum temperature. Thermal balance test correlation is within 3°C.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim: references specific thermal analysis tool (ESATAN-TMS), provides temperature ranges with comparison to component limits, specifies heater parameters, and includes thermal balance test correlation data."
+  },
+  {
+    "case_id": "orbit_thermal_017",
+    "claim_type": "thermal_claim",
+    "input": "Hot case analysis predicts maximum electronics board temperature of +55°C (limit: +70°C with 15°C margin). Cold case shows minimum of -15°C (limit: -30°C with 15°C margin). MLI blanket provides 0.02 W/m²K effective emittance.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim: provides hot and cold case temperatures with explicit margins, references MLI specifications, and shows temperatures are within limits with adequate margin."
+  },
+  {
+    "case_id": "orbit_thermal_018",
+    "claim_type": "thermal_claim",
+    "input": "The satellite's thermal design keeps all components within their rated temperature ranges. A detailed thermal model was developed and correlated with thermal vacuum test results.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim but missing quantitative data: mentions thermal model and TVAC correlation (good practices) but provides no specific temperatures, margins, or model results. Needs numerical evidence."
+  },
+  {
+    "case_id": "orbit_thermal_019",
+    "claim_type": "thermal_claim",
+    "input": "Component temperatures range from +5°C to +35°C based on thermal analysis. All components have operational ranges that encompass this temperature band.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim but vague: temperature range is provided and claimed to be within component limits, but no specific component names, their temperature limits, no thermal model tool, and no margin analysis."
+  },
+  {
+    "case_id": "orbit_thermal_020",
+    "claim_type": "thermal_claim",
+    "input": "The satellite experiences temperatures from -180°C to +130°C on external surfaces, but internally the electronics bay is maintained at -10°C to +50°C by MLI blankets, heat pipes, and survival heaters with a total thermal control power budget of 30 W.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "ThermalGate",
+    "risk_label": "thermal_claim",
+    "reason": "Valid thermal claim: provides external and internal temperature ranges, describes thermal control methods (MLI, heat pipes, heaters), and specifies thermal power budget. Realistic LEO temperature ranges."
+  }
+]

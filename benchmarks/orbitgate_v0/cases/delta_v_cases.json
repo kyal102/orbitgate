@@ -1,0 +1,183 @@
+[
+  {
+    "case_id": "orbit_delta_v_001",
+    "claim_type": "delta_v_claim",
+    "input": "A zero-delta-v manoeuvre will be sufficient to change the satellite's orbital plane from 51.6° to 28.5° inclination.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Zero-cost manoeuvre claim: a plane change from 51.6° to 28.5° requires approximately 3.8 km/s of delta-v at LEO. Claiming zero delta-v for this is physically impossible."
+  },
+  {
+    "case_id": "orbit_delta_v_002",
+    "claim_type": "delta_v_claim",
+    "input": "The orbit raising manoeuvre from 400 km to 800 km altitude requires no propellant expenditure as we can use atmospheric drag to our advantage.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Zero-cost manoeuvre claim: raising an orbit requires positive delta-v (approximately 0.12 km/s for this case). Atmospheric drag always lowers orbits, never raises them. Physics violation."
+  },
+  {
+    "case_id": "orbit_delta_v_003",
+    "claim_type": "delta_v_claim",
+    "input": "A station-keeping manoeuvre with zero delta-v will maintain the satellite's position in GEO against luni-solar perturbations indefinitely.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Zero-cost manoeuvre claim: GEO station-keeping requires approximately 40-50 m/s per year to counteract luni-solar and solar radiation pressure perturbations. Zero delta-v is insufficient."
+  },
+  {
+    "case_id": "orbit_delta_v_004",
+    "claim_type": "delta_v_claim",
+    "input": "Applying -500 m/s of delta-v will raise the satellite's orbit from 400 km circular to 600 km circular.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Negative delta-v claim: retrograde burn (-500 m/s) would lower the orbit, not raise it. Raising from 400 km to 600 km requires a positive prograde burn of approximately 120 m/s."
+  },
+  {
+    "case_id": "orbit_delta_v_005",
+    "claim_type": "delta_v_claim",
+    "input": "A negative delta-v of -200 m/s applied prograde will increase the semi-major axis by 150 km.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Negative delta-v claim: applying negative delta-v (retrograde) decreases the semi-major axis and orbital energy. Cannot increase semi-major axis with a retrograde burn."
+  },
+  {
+    "case_id": "orbit_delta_v_006",
+    "claim_type": "delta_v_claim",
+    "input": "By applying -1.5 km/s of delta-v in the velocity direction, the satellite will achieve a higher energy transfer orbit to GEO.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Negative delta-v claim: -1.5 km/s retrograde burn from LEO would lower the orbit toward atmospheric reentry, not raise it to GEO. Transfer to GEO requires positive delta-v of approximately 3.9 km/s (Hohmann)."
+  },
+  {
+    "case_id": "orbit_delta_v_007",
+    "claim_type": "delta_v_claim",
+    "input": "A single 15 km/s delta-v burn will transfer the satellite from LEO to Mars orbit.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Unrealistic high delta-v without budget context: 15 km/s from a single burn exceeds typical LEO satellite propulsion capabilities (most have <5 km/s total). While the delta-v for Earth-Mars transfer is ~3.6 km/s from LEO, the claim doesn't specify if this is a multi-burn sequence or a single impulse."
+  },
+  {
+    "case_id": "orbit_delta_v_008",
+    "claim_type": "delta_v_claim",
+    "input": "The satellite will perform a 25 km/s plane change manoeuvre to match the target orbit inclination.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Unrealistic high delta-v without budget: 25 km/s far exceeds any known satellite's propellant capacity. Maximum practical delta-v for a satellite with chemical propulsion is typically under 5 km/s."
+  },
+  {
+    "case_id": "orbit_delta_v_009",
+    "claim_type": "delta_v_claim",
+    "input": "An emergency manoeuvre requiring 50 km/s of delta-v will be executed to avoid the debris field.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Unrealistic high delta-v without budget: 50 km/s is beyond the capability of any existing or planned satellite propulsion system. Typical collision avoidance manoeuvres require <10 m/s."
+  },
+  {
+    "case_id": "orbit_delta_v_010",
+    "claim_type": "delta_v_claim",
+    "input": "The Hohmann transfer manoeuvre is guaranteed to succeed with 100% probability and zero margin of error.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Guaranteed success claim: no orbital manoeuvre has 100% success probability or zero error margin. Real manoeuvres are subject to execution errors, navigation uncertainty, and environmental perturbations."
+  },
+  {
+    "case_id": "orbit_delta_v_011",
+    "claim_type": "delta_v_claim",
+    "input": "This orbit insertion burn will definitely place the satellite in the exact target orbit with no deviation, guaranteed.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Guaranteed success claim: orbit insertion always has some error. Even the most precise burns have execution errors on the order of 0.1-1%. Claiming 'no deviation' and 'guaranteed' is unrealistic."
+  },
+  {
+    "case_id": "orbit_delta_v_012",
+    "claim_type": "delta_v_claim",
+    "input": "The deorbit burn is 100% certain to produce the exact predicted reentry trajectory without any uncertainty.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Guaranteed success claim: reentry trajectories are inherently uncertain due to atmospheric density variations, spacecraft attitude uncertainty, and solar activity. 100% certainty is impossible."
+  },
+  {
+    "case_id": "orbit_delta_v_013",
+    "claim_type": "delta_v_claim",
+    "input": "A 150 m/s prograde burn will raise the orbit from 400 km to approximately 540 km circular altitude. The satellite has a total delta-v budget of 500 m/s with 200 m/s remaining after this manoeuvre.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Valid delta-v claim with budget: 150 m/s is realistic for raising from 400 km to ~540 km. Total budget of 500 m/s is reasonable for a small satellite, and 200 m/s remaining provides margin."
+  },
+  {
+    "case_id": "orbit_delta_v_014",
+    "claim_type": "delta_v_claim",
+    "input": "A 5 m/s collision avoidance manoeuvre will be executed at TCA-30 minutes, using 5 m/s of the satellite's total 100 m/s delta-v budget, leaving 95 m/s for future station-keeping.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Valid delta-v claim with budget: 5 m/s is a typical collision avoidance magnitude. Total budget of 100 m/s is realistic, and the post-burn remaining delta-v is correctly calculated."
+  },
+  {
+    "case_id": "orbit_delta_v_015",
+    "claim_type": "delta_v_claim",
+    "input": "The GEO insertion requires a 1,800 m/s apogee kick motor burn, consuming 60% of the satellite's 3,000 m/s total delta-v budget, leaving 1,200 m/s for 15-year station-keeping.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Valid delta-v claim with budget: 1,800 m/s for GEO insertion from GTO is realistic. 3,000 m/s total budget with 1,200 m/s remaining for station-keeping (80 m/s/year for 15 years) is reasonable."
+  },
+  {
+    "case_id": "orbit_delta_v_016",
+    "claim_type": "delta_v_claim",
+    "input": "A 75 m/s inclination correction burn will adjust the orbit from 28.7° to 28.5° to maintain the exact mission design inclination.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Missing budget claim: the delta-v magnitude (75 m/s for a 0.2° inclination change) may be reasonable depending on altitude, but no total delta-v budget or remaining propellant is specified."
+  },
+  {
+    "case_id": "orbit_delta_v_017",
+    "claim_type": "delta_v_claim",
+    "input": "The satellite will perform a phasing manoeuvre of 30 m/s to adjust its ground track repeat cycle.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Missing budget claim: 30 m/s phasing manoeuvre is physically plausible, but no information about the satellite's delta-v budget or remaining propellant is provided."
+  },
+  {
+    "case_id": "orbit_delta_v_018",
+    "claim_type": "delta_v_claim",
+    "input": "A delta-v of exactly 0.000 m/s will be applied to maintain the current orbit, with the satellite's on-board propulsion system providing this zero impulse perfectly.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Edge case: zero delta-v with contradictory language about the propulsion system providing 'zero impulse perfectly'. If no manoeuvre is needed, the propulsion system should not be involved. Misleading claim."
+  },
+  {
+    "case_id": "orbit_delta_v_019",
+    "claim_type": "delta_v_claim",
+    "input": "The satellite requires 4.2 km/s delta-v for a LEO-to-GEO transfer, and the on-board propulsion provides exactly 4.2 km/s with zero margin.",
+    "expected_decision": "NEEDS_REVIEW",
+    "edge_case": true,
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Edge case: delta-v budget exactly matches requirement with zero margin. While physically possible in theory, any execution error would make the mission impossible. Real missions require positive margins (typically 5-10%)."
+  },
+  {
+    "case_id": "orbit_delta_v_020",
+    "claim_type": "delta_v_claim",
+    "input": "A continuous low-thrust manoeuvre providing 0.001 m/s per day for 365 days will result in a total delta-v expenditure of 0.365 m/s for orbit maintenance.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "DeltaVGate",
+    "risk_label": "maneuver_claim",
+    "reason": "Edge case: low-thrust continuous manoeuvre. The math is correct (0.001 × 365 = 0.365 m/s), the rate is realistic for electric propulsion, and the total expenditure is small. Valid claim."
+  }
+]

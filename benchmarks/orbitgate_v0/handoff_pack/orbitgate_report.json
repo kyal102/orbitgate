@@ -1,0 +1,629 @@
+{
+  "report_title": "OrbitGate v0 Verification Report",
+  "generated_at_utc": "2026-06-27T00:05:19Z",
+  "executive_summary": {
+    "total_claims": 10,
+    "allowed": 1,
+    "blocked": 7,
+    "needs_review": 0,
+    "evidence_required": 1,
+    "unsupported": 0,
+    "out_of_scope": 1
+  },
+  "what_orbitgate_is": [
+    "OrbitGate is a public research prototype for deterministic checking of AI-generated orbital claims.",
+    "It routes claims through typed verification gates that apply pattern-based, rule-based checks.",
+    "It provides evidence records, replay verification, and structured reports.",
+    "It is NOT a flight-certified tool, does not control real spacecraft, and does not replace mission control."
+  ],
+  "what_orbitgate_is_not": [
+    "OrbitGate does not guarantee orbital safety.",
+    "OrbitGate does not control satellites.",
+    "OrbitGate does not replace mission control, NASA, ESA, or any space agency.",
+    "OrbitGate does not provide flight certification.",
+    "OrbitGate does not prove regulatory compliance.",
+    "OrbitGate is not production-ready for real mission operations.",
+    "OrbitGate cannot autonomously command spacecraft."
+  ],
+  "gate_results": [
+    {
+      "case_id": "demo_tle_valid",
+      "claim_text": "1 25544U 98067A   24001.50000000  .00016717  00000-0  30186-3 0  9993\n2 25544  51.6416 247.4627 0006703  41.5696 318.5524 15.49560460470687",
+      "claim_type": "tle_claim",
+      "gate": "TLEGate",
+      "decision": "ALLOW",
+      "reason": "TLE structure is valid. Format checks passed.",
+      "expected_decision": "ALLOW",
+      "expected_gate": "TLEGate",
+      "match": true,
+      "passing": 1,
+      "total": 1,
+      "limitations": [
+        "TLE format validation only \u2014 does not verify source authenticity",
+        "Does not confirm orbital accuracy against independent measurements",
+        "No propagation or time-decay verification performed"
+      ],
+      "evidence": {
+        "tle_parsed": {
+          "satellite_number": "25544",
+          "epoch": "24001.50000000",
+          "inclination_deg": 51.6416,
+          "eccentricity": 0.0006703,
+          "mean_motion_rev_per_day": 15.4956046,
+          "raan_deg": 247.462,
+          "argument_of_perigee_deg": 41.5696,
+          "mean_anomaly_deg": 318.5524,
+          "revolution_number": 47068,
+          "classification": "U",
+          "element_number": "999",
+          "checksum_line1": "3",
+          "checksum_line2": "7"
+        }
+      },
+      "replay_hash": "c3b914d95b02aee76ff5f01eee6d8a4a654c7ae52cd5760df5572efc6f7611bc",
+      "evidence_record": {
+        "case_id": "demo_tle_valid",
+        "claim_type": "tle_claim",
+        "gate": "TLEGate",
+        "decision": "ALLOW",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "TLE format validation only \u2014 does not verify source authenticity",
+          "Does not confirm orbital accuracy against independent measurements",
+          "No propagation or time-decay verification performed"
+        ],
+        "replay_hash": "c3b914d95b02aee76ff5f01eee6d8a4a654c7ae52cd5760df5572efc6f7611bc",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_tle_malformed",
+      "claim_text": "This is not a valid TLE at all",
+      "claim_type": "tle_claim",
+      "gate": "TLEGate",
+      "decision": "EVIDENCE_REQUIRED",
+      "reason": "No TLE data found in claim text. Provide a valid two-line element set.",
+      "expected_decision": "EVIDENCE_REQUIRED",
+      "expected_gate": "TLEGate",
+      "match": true,
+      "passing": 0,
+      "total": 0,
+      "limitations": [],
+      "evidence": {},
+      "replay_hash": "7a56f95e0625c929de0880eb4f30d8385630b7f57920ab0c9323ecdcccd09c0c",
+      "evidence_record": {
+        "case_id": "demo_tle_malformed",
+        "claim_type": "tle_claim",
+        "gate": "TLEGate",
+        "decision": "EVIDENCE_REQUIRED",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [],
+        "replay_hash": "7a56f95e0625c929de0880eb4f30d8385630b7f57920ab0c9323ecdcccd09c0c",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_collision_guarantee",
+      "claim_text": "This satellite is guaranteed safe orbit with no collision risk.",
+      "claim_type": "collision_avoidance_claim",
+      "gate": "CollisionGate",
+      "decision": "BLOCK",
+      "reason": "Blocked absolute safety claim: 'guaranteed safe orbit'",
+      "expected_decision": "BLOCK",
+      "expected_gate": "CollisionGate",
+      "match": true,
+      "passing": 1,
+      "total": 4,
+      "limitations": [
+        "Cannot independently verify collision probability calculations",
+        "Does not access live conjunction data",
+        "Cannot certify collision avoidance",
+        "Does not replace CDM analysis by space surveillance entities"
+      ],
+      "evidence": {
+        "collision_keywords": [
+          "collision",
+          "collision risk"
+        ],
+        "has_evidence_source": false
+      },
+      "replay_hash": "bb22a48e9515fd957ee5377f9a37d8a6b35e603c91b84489f150043313eefc43",
+      "evidence_record": {
+        "case_id": "demo_collision_guarantee",
+        "claim_type": "collision_avoidance_claim",
+        "gate": "CollisionGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Cannot independently verify collision probability calculations",
+          "Does not access live conjunction data",
+          "Cannot certify collision avoidance",
+          "Does not replace CDM analysis by space surveillance entities"
+        ],
+        "replay_hash": "bb22a48e9515fd957ee5377f9a37d8a6b35e603c91b84489f150043313eefc43",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_delta_v_negative",
+      "claim_text": "Perform a maneuver with delta-v of -50 m/s.",
+      "claim_type": "delta_v_claim",
+      "gate": "DeltaVGate",
+      "decision": "BLOCK",
+      "reason": "Negative delta-v found: [-50.0]",
+      "expected_decision": "BLOCK",
+      "expected_gate": "DeltaVGate",
+      "match": true,
+      "passing": 4,
+      "total": 5,
+      "limitations": [
+        "Does not verify thrust vector accuracy",
+        "Does not validate delta-v against spacecraft capability",
+        "Mass and Isp assumptions not checked"
+      ],
+      "evidence": {
+        "delta_v_values_ms2": [
+          -50.0
+        ]
+      },
+      "replay_hash": "d217633e4dc661009d0884a2244e102a4dd518681a6fda9acfc60ea64d3ec9a9",
+      "evidence_record": {
+        "case_id": "demo_delta_v_negative",
+        "claim_type": "delta_v_claim",
+        "gate": "DeltaVGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Does not verify thrust vector accuracy",
+          "Does not validate delta-v against spacecraft capability",
+          "Mass and Isp assumptions not checked"
+        ],
+        "replay_hash": "d217633e4dc661009d0884a2244e102a4dd518681a6fda9acfc60ea64d3ec9a9",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_power_unlimited",
+      "claim_text": "The satellite has unlimited power for all operations.",
+      "claim_type": "power_budget_claim",
+      "gate": "PowerGate",
+      "decision": "BLOCK",
+      "reason": "Impossible power claim: 'unlimited power'",
+      "expected_decision": "BLOCK",
+      "expected_gate": "PowerGate",
+      "match": true,
+      "passing": 0,
+      "total": 2,
+      "limitations": [
+        "Does not model eclipse cycles",
+        "Does not verify solar panel degradation",
+        "Battery capacity not independently verified"
+      ],
+      "evidence": {
+        "power_values_watts": []
+      },
+      "replay_hash": "fe823d08e5511f492fae58f863d4c2a9ebf983521f3eb88fcb4555a9cff82534",
+      "evidence_record": {
+        "case_id": "demo_power_unlimited",
+        "claim_type": "power_budget_claim",
+        "gate": "PowerGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Does not model eclipse cycles",
+          "Does not verify solar panel degradation",
+          "Battery capacity not independently verified"
+        ],
+        "replay_hash": "fe823d08e5511f492fae58f863d4c2a9ebf983521f3eb88fcb4555a9cff82534",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_comms_leo_always",
+      "claim_text": "The LEO satellite at 400 km has continuous coverage and is always connected.",
+      "claim_type": "comms_window_claim",
+      "gate": "CommsGate",
+      "decision": "BLOCK",
+      "reason": "LEO satellites cannot have 'always connected' \u2014 LEO has natural contact gaps",
+      "expected_decision": "BLOCK",
+      "expected_gate": "CommsGate",
+      "match": true,
+      "passing": 3,
+      "total": 4,
+      "limitations": [
+        "Does not compute link budgets",
+        "Does not verify antenna patterns or pointing",
+        "Atmospheric attenuation not modeled"
+      ],
+      "evidence": {
+        "orbit_regime": "LEO",
+        "has_link_budget": false
+      },
+      "replay_hash": "e4c0c6adc0316f790e7c3dbe86a9c387224b403e8b8908954dc58a6443fb1e28",
+      "evidence_record": {
+        "case_id": "demo_comms_leo_always",
+        "claim_type": "comms_window_claim",
+        "gate": "CommsGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Does not compute link budgets",
+          "Does not verify antenna patterns or pointing",
+          "Atmospheric attenuation not modeled"
+        ],
+        "replay_hash": "e4c0c6adc0316f790e7c3dbe86a9c387224b403e8b8908954dc58a6443fb1e28",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_thermal_guarantee",
+      "claim_text": "The satellite has guaranteed thermal stability at all times.",
+      "claim_type": "thermal_claim",
+      "gate": "ThermalGate",
+      "decision": "BLOCK",
+      "reason": "Blocked guarantee phrase: 'guaranteed thermal stability'",
+      "expected_decision": "BLOCK",
+      "expected_gate": "ThermalGate",
+      "match": true,
+      "passing": 2,
+      "total": 4,
+      "limitations": [
+        "Default temperature range [-100.0, 100.0]\u00b0C may not suit all missions",
+        "Does not verify thermal model accuracy",
+        "Eclipse/insolation transitions not modeled"
+      ],
+      "evidence": {
+        "temperatures_c": []
+      },
+      "replay_hash": "7fd28f9db473dc5b35eb889f9dae5ea32eefb09465c86d75e3c2ed604a37e0f5",
+      "evidence_record": {
+        "case_id": "demo_thermal_guarantee",
+        "claim_type": "thermal_claim",
+        "gate": "ThermalGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Default temperature range [-100.0, 100.0]\u00b0C may not suit all missions",
+          "Does not verify thermal model accuracy",
+          "Eclipse/insolation transitions not modeled"
+        ],
+        "replay_hash": "7fd28f9db473dc5b35eb889f9dae5ea32eefb09465c86d75e3c2ed604a37e0f5",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_deorbit_no_risk",
+      "claim_text": "The deorbit will result in no debris risk at all.",
+      "claim_type": "deorbit_claim",
+      "gate": "DeorbitGate",
+      "decision": "BLOCK",
+      "reason": "Blocked phrase: 'no debris risk' \u2014 cannot guarantee zero debris risk",
+      "expected_decision": "BLOCK",
+      "expected_gate": "DeorbitGate",
+      "match": true,
+      "passing": 3,
+      "total": 5,
+      "limitations": [
+        "Cannot verify re-entry survivability calculations",
+        "Does not model atmospheric breakup",
+        "Regulatory requirements vary by jurisdiction"
+      ],
+      "evidence": {
+        "has_evidence": false,
+        "has_regulatory": false
+      },
+      "replay_hash": "e573f0099fc5288405b95ea6cc641cdad923e4f8b4ec60cfb6f1d62dcf7bca87",
+      "evidence_record": {
+        "case_id": "demo_deorbit_no_risk",
+        "claim_type": "deorbit_claim",
+        "gate": "DeorbitGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Cannot verify re-entry survivability calculations",
+          "Does not model atmospheric breakup",
+          "Regulatory requirements vary by jurisdiction"
+        ],
+        "replay_hash": "e573f0099fc5288405b95ea6cc641cdad923e4f8b4ec60cfb6f1d62dcf7bca87",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_command_real",
+      "claim_text": "Execute command sequence to disable safemode on the spacecraft.",
+      "claim_type": "command_sequence_claim",
+      "gate": "CommandGate",
+      "decision": "BLOCK",
+      "reason": "Real spacecraft command execution is outside OrbitGate scope. OrbitGate is a research prototype and cannot command real spacecraft.; Safemode disable command 'disable safemode' without explicit authorization evidence",
+      "expected_decision": "BLOCK",
+      "expected_gate": "CommandGate",
+      "match": true,
+      "passing": 4,
+      "total": 6,
+      "limitations": [
+        "Cannot verify command sequence correctness",
+        "Does not access spacecraft telemetry",
+        "Cannot validate real command execution"
+      ],
+      "evidence": {
+        "command_keywords": [
+          "execute",
+          "command"
+        ]
+      },
+      "replay_hash": "7edc2e3a083afc2cf26fdfc1a0490a225d295d88ed8557e61a0551691de8fd10",
+      "evidence_record": {
+        "case_id": "demo_command_real",
+        "claim_type": "command_sequence_claim",
+        "gate": "CommandGate",
+        "decision": "BLOCK",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Cannot verify command sequence correctness",
+          "Does not access spacecraft telemetry",
+          "Cannot validate real command execution"
+        ],
+        "replay_hash": "7edc2e3a083afc2cf26fdfc1a0490a225d295d88ed8557e61a0551691de8fd10",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    },
+    {
+      "case_id": "demo_unsupported",
+      "claim_text": "The weather on Mars will be sunny tomorrow with temperatures of 20C.",
+      "claim_type": "unsupported_space_claim",
+      "gate": "NoGate",
+      "decision": "OUT_OF_SCOPE",
+      "reason": "Claim does not match any supported orbital claim category.",
+      "expected_decision": "OUT_OF_SCOPE",
+      "expected_gate": "NoGate",
+      "match": true,
+      "passing": 0,
+      "total": 0,
+      "limitations": [
+        "Claim type not recognized by OrbitGate"
+      ],
+      "evidence": {},
+      "replay_hash": "0fdba160fad979a25162df710ec5897c0922f33443c4054e717d724591ceede6",
+      "evidence_record": {
+        "case_id": "demo_unsupported",
+        "claim_type": "unsupported_space_claim",
+        "gate": "NoGate",
+        "decision": "OUT_OF_SCOPE",
+        "evidence_used": [],
+        "missing_evidence": [],
+        "limitations": [
+          "Claim type not recognized by OrbitGate"
+        ],
+        "replay_hash": "0fdba160fad979a25162df710ec5897c0922f33443c4054e717d724591ceede6",
+        "timestamp_utc": "2026-06-27T00:05:19Z"
+      }
+    }
+  ],
+  "benchmark_summary": {
+    "passed": 1,
+    "blocked": 7,
+    "needs_review": 0,
+    "evidence_required": 1,
+    "unsupported": 0,
+    "out_of_scope": 1,
+    "total": 10,
+    "benchmark_matches": 10,
+    "benchmark_mismatches": 0
+  },
+  "blocked_claims": [
+    {
+      "case_id": "demo_collision_guarantee",
+      "claim_text": "This satellite is guaranteed safe orbit with no collision risk.",
+      "gate": "CollisionGate",
+      "reason": "Blocked absolute safety claim: 'guaranteed safe orbit'"
+    },
+    {
+      "case_id": "demo_delta_v_negative",
+      "claim_text": "Perform a maneuver with delta-v of -50 m/s.",
+      "gate": "DeltaVGate",
+      "reason": "Negative delta-v found: [-50.0]"
+    },
+    {
+      "case_id": "demo_power_unlimited",
+      "claim_text": "The satellite has unlimited power for all operations.",
+      "gate": "PowerGate",
+      "reason": "Impossible power claim: 'unlimited power'"
+    },
+    {
+      "case_id": "demo_comms_leo_always",
+      "claim_text": "The LEO satellite at 400 km has continuous coverage and is always connected.",
+      "gate": "CommsGate",
+      "reason": "LEO satellites cannot have 'always connected' \u2014 LEO has natural contact gaps"
+    },
+    {
+      "case_id": "demo_thermal_guarantee",
+      "claim_text": "The satellite has guaranteed thermal stability at all times.",
+      "gate": "ThermalGate",
+      "reason": "Blocked guarantee phrase: 'guaranteed thermal stability'"
+    },
+    {
+      "case_id": "demo_deorbit_no_risk",
+      "claim_text": "The deorbit will result in no debris risk at all.",
+      "gate": "DeorbitGate",
+      "reason": "Blocked phrase: 'no debris risk' \u2014 cannot guarantee zero debris risk"
+    },
+    {
+      "case_id": "demo_command_real",
+      "claim_text": "Execute command sequence to disable safemode on the spacecraft.",
+      "gate": "CommandGate",
+      "reason": "Real spacecraft command execution is outside OrbitGate scope. OrbitGate is a research prototype and cannot command real spacecraft.; Safemode disable command 'disable safemode' without explicit authorization evidence"
+    }
+  ],
+  "review_required_claims": [],
+  "evidence_records": [
+    {
+      "case_id": "demo_tle_valid",
+      "claim_type": "tle_claim",
+      "gate": "TLEGate",
+      "decision": "ALLOW",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "TLE format validation only \u2014 does not verify source authenticity",
+        "Does not confirm orbital accuracy against independent measurements",
+        "No propagation or time-decay verification performed"
+      ],
+      "replay_hash": "c3b914d95b02aee76ff5f01eee6d8a4a654c7ae52cd5760df5572efc6f7611bc",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_tle_malformed",
+      "claim_type": "tle_claim",
+      "gate": "TLEGate",
+      "decision": "EVIDENCE_REQUIRED",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [],
+      "replay_hash": "7a56f95e0625c929de0880eb4f30d8385630b7f57920ab0c9323ecdcccd09c0c",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_collision_guarantee",
+      "claim_type": "collision_avoidance_claim",
+      "gate": "CollisionGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Cannot independently verify collision probability calculations",
+        "Does not access live conjunction data",
+        "Cannot certify collision avoidance",
+        "Does not replace CDM analysis by space surveillance entities"
+      ],
+      "replay_hash": "bb22a48e9515fd957ee5377f9a37d8a6b35e603c91b84489f150043313eefc43",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_delta_v_negative",
+      "claim_type": "delta_v_claim",
+      "gate": "DeltaVGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Does not verify thrust vector accuracy",
+        "Does not validate delta-v against spacecraft capability",
+        "Mass and Isp assumptions not checked"
+      ],
+      "replay_hash": "d217633e4dc661009d0884a2244e102a4dd518681a6fda9acfc60ea64d3ec9a9",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_power_unlimited",
+      "claim_type": "power_budget_claim",
+      "gate": "PowerGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Does not model eclipse cycles",
+        "Does not verify solar panel degradation",
+        "Battery capacity not independently verified"
+      ],
+      "replay_hash": "fe823d08e5511f492fae58f863d4c2a9ebf983521f3eb88fcb4555a9cff82534",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_comms_leo_always",
+      "claim_type": "comms_window_claim",
+      "gate": "CommsGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Does not compute link budgets",
+        "Does not verify antenna patterns or pointing",
+        "Atmospheric attenuation not modeled"
+      ],
+      "replay_hash": "e4c0c6adc0316f790e7c3dbe86a9c387224b403e8b8908954dc58a6443fb1e28",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_thermal_guarantee",
+      "claim_type": "thermal_claim",
+      "gate": "ThermalGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Default temperature range [-100.0, 100.0]\u00b0C may not suit all missions",
+        "Does not verify thermal model accuracy",
+        "Eclipse/insolation transitions not modeled"
+      ],
+      "replay_hash": "7fd28f9db473dc5b35eb889f9dae5ea32eefb09465c86d75e3c2ed604a37e0f5",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_deorbit_no_risk",
+      "claim_type": "deorbit_claim",
+      "gate": "DeorbitGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Cannot verify re-entry survivability calculations",
+        "Does not model atmospheric breakup",
+        "Regulatory requirements vary by jurisdiction"
+      ],
+      "replay_hash": "e573f0099fc5288405b95ea6cc641cdad923e4f8b4ec60cfb6f1d62dcf7bca87",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_command_real",
+      "claim_type": "command_sequence_claim",
+      "gate": "CommandGate",
+      "decision": "BLOCK",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Cannot verify command sequence correctness",
+        "Does not access spacecraft telemetry",
+        "Cannot validate real command execution"
+      ],
+      "replay_hash": "7edc2e3a083afc2cf26fdfc1a0490a225d295d88ed8557e61a0551691de8fd10",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    },
+    {
+      "case_id": "demo_unsupported",
+      "claim_type": "unsupported_space_claim",
+      "gate": "NoGate",
+      "decision": "OUT_OF_SCOPE",
+      "evidence_used": [],
+      "missing_evidence": [],
+      "limitations": [
+        "Claim type not recognized by OrbitGate"
+      ],
+      "replay_hash": "0fdba160fad979a25162df710ec5897c0922f33443c4054e717d724591ceede6",
+      "timestamp_utc": "2026-06-27T00:05:19Z"
+    }
+  ],
+  "replay_results": [],
+  "limitations": [
+    "OrbitGate v0 uses pattern-based and rule-based checks only.",
+    "It does not access live orbital data or telemetry.",
+    "SGP4 propagation is a simplified model and not flight-certified.",
+    "All decisions require human review before real-world application.",
+    "Temperature ranges, delta-v thresholds, and other limits use conservative defaults."
+  ],
+  "next_required_validation": [
+    "Run full benchmark suite against 160+ test cases.",
+    "Verify replay determinism across multiple runs.",
+    "Review all BLOCK and NEEDS_REVIEW cases manually.",
+    "Install sgp4 for orbit propagation verification.",
+    "Integrate with live TLE sources for real-time validation."
+  ]
+}

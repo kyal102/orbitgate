@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_comms_001",
+    "claim_type": "comms_window_claim",
+    "input": "The LEO satellite at 550 km altitude is always connected to the ground network with 100% communication availability at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: LEO satellites have ~10-15 minute visibility windows per pass from any single ground station, with 90+ minute gaps between passes. 100% availability is impossible from a single ground station."
+  },
+  {
+    "case_id": "orbit_comms_002",
+    "claim_type": "comms_window_claim",
+    "input": "Our LEO satellite maintains continuous real-time communication with the ground station 24 hours a day, 7 days a week without interruption.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: LEO satellites cannot maintain continuous contact with a single ground station due to orbital mechanics. Even with multiple ground stations, there are brief handover gaps. 24/7 is unrealistic."
+  },
+  {
+    "case_id": "orbit_comms_003",
+    "claim_type": "comms_window_claim",
+    "input": "The satellite has uninterrupted connectivity at all times in its 400 km LEO orbit. There are never any communication blackouts.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: 400 km LEO orbits have limited ground visibility. 'Never any communication blackouts' ignores orbital mechanics, atmospheric attenuation at low elevation angles, and station handover periods."
+  },
+  {
+    "case_id": "orbit_comms_004",
+    "claim_type": "comms_window_claim",
+    "input": "Due to its LEO orbit, the satellite is always within line-of-sight of at least one ground station, providing permanent communication capability.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: LEO satellites are not within line-of-sight of any ground station for significant portions of each orbit, especially over oceans and polar regions. 'Permanent' is incorrect."
+  },
+  {
+    "case_id": "orbit_comms_005",
+    "claim_type": "comms_window_claim",
+    "input": "The communication system provides constant connectivity with zero downtime in the 500 km sun-synchronous orbit.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Always connected' LEO claim: sun-synchronous LEO at 500 km has the same visibility constraints as any LEO orbit. 'Zero downtime' ignores eclipse periods, ground station limitations, and orbital geometry."
+  },
+  {
+    "case_id": "orbit_comms_006",
+    "claim_type": "comms_window_claim",
+    "input": "The satellite communicates with the ground station using S-band at 2.2 GHz with a data rate of 1 Mbps.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: frequency and data rate are specified but no link budget analysis. Need EIRP, G/T, path loss, margin, bit error rate, and antenna gains to verify the link is feasible."
+  },
+  {
+    "case_id": "orbit_comms_007",
+    "claim_type": "comms_window_claim",
+    "input": "X-band downlink at 8.2 GHz will transmit science data at 150 Mbps to the ground station.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: high data rate (150 Mbps) claimed at X-band but no link budget provided. 150 Mbps X-band requires significant power and antenna gain. Need full link budget to verify."
+  },
+  {
+    "case_id": "orbit_comms_008",
+    "claim_type": "comms_window_claim",
+    "input": "The Ka-band communication system achieves 500 Mbps downlink rate to the ground.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: 500 Mbps Ka-band claim with no link budget. Ka-band is susceptible to rain fade and atmospheric attenuation. Need complete link budget with margin analysis."
+  },
+  {
+    "case_id": "orbit_comms_009",
+    "claim_type": "comms_window_claim",
+    "input": "UHF command uplink at 450 MHz provides reliable commanding from the ground station with a 9.6 kbps data rate.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: UHF frequency and data rate specified but no link budget. While 9.6 kbps at UHF is generally feasible, the claim needs EIRP, G/T, range, and margin to be verified."
+  },
+  {
+    "case_id": "orbit_comms_010",
+    "claim_type": "comms_window_claim",
+    "input": "The optical communication terminal achieves a 1 Gbps downlink to the optical ground station.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Missing link budget: optical communication at 1 Gbps claimed with no link budget. Optical links require analysis of atmospheric transmission, turbulence, pointing accuracy, and receiver sensitivity."
+  },
+  {
+    "case_id": "orbit_comms_011",
+    "claim_type": "comms_window_claim",
+    "input": "The communication system is guaranteed to deliver 100% data delivery with zero packet loss at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': no RF or optical link achieves 100% delivery with zero packet loss. Atmospheric effects, interference, and hardware constraints always introduce some loss. Requires retransmission protocols."
+  },
+  {
+    "case_id": "orbit_comms_012",
+    "claim_type": "comms_window_claim",
+    "input": "All commands sent to the satellite will be received and executed with absolute certainty and zero failure probability.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': absolute certainty in command delivery is impossible. Link margin, interference, and bit errors can cause command loss. This is why space links use forward error correction and command verification."
+  },
+  {
+    "case_id": "orbit_comms_013",
+    "claim_type": "comms_window_claim",
+    "input": "The satellite guarantees perfect data transmission to the ground under all weather conditions and orbital geometries.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': 'all weather conditions' is impossible. Ka-band and Ku-band are significantly affected by rain fade. Even S-band has some atmospheric attenuation. Perfect transmission is unachievable."
+  },
+  {
+    "case_id": "orbit_comms_014",
+    "claim_type": "comms_window_claim",
+    "input": "The communication link will never experience any interference or signal degradation throughout the entire mission.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': RF interference from terrestrial transmitters, other satellites, and solar activity can always affect satellite communications. 'Never' is an absolute claim that cannot be substantiated."
+  },
+  {
+    "case_id": "orbit_comms_015",
+    "claim_type": "comms_window_claim",
+    "input": "With our advanced communication system, the satellite maintains an unbreakable, guaranteed link to the ground at all times.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "'Guaranteed communication': 'unbreakable' and 'guaranteed' are absolute claims. No communication link is unbreakable. Physical obstructions, distance, and environmental effects all affect link availability."
+  },
+  {
+    "case_id": "orbit_comms_016",
+    "claim_type": "comms_window_claim",
+    "input": "S-band downlink at 2.2 GHz: satellite EIRP 12 dBW, ground station G/T 20 dB/K, slant range 2000 km (max), free space loss 166 dB, required Eb/N0 10 dB, achieved Eb/N0 14 dB with 4 dB margin. Data rate 1 Mbps, BER < 1×10⁻⁶.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: complete link budget with EIRP, G/T, range, path loss, Eb/N0, margin, data rate, and BER. 4 dB margin is adequate for a well-designed S-band link."
+  },
+  {
+    "case_id": "orbit_comms_017",
+    "claim_type": "ground_station_claim",
+    "input": "The satellite has 4-6 communication passes per day over the Svalbard ground station, each lasting approximately 10-12 minutes, providing approximately 50 minutes of daily contact time for data download.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: realistic LEO pass frequency (4-6 per day for a polar/mid-latitude station), realistic pass duration (10-12 min), and reasonable daily total. No absolute availability claims."
+  },
+  {
+    "case_id": "orbit_comms_018",
+    "claim_type": "comms_window_claim",
+    "input": "X-band link budget: EIRP 18.5 dBW, ground G/T 28 dB/K, max range 2500 km, path loss 170.5 dB, modulation QPSK 3/4 FEC, data rate 100 Mbps, link margin 3.2 dB in clear sky and 1.1 dB in rain (2 mm/hr).",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: detailed link budget with clear sky and rain margin analysis. 3.2 dB clear sky margin and 1.1 dB rain margin are specified (though rain margin is tight, it's acknowledged)."
+  },
+  {
+    "case_id": "orbit_comms_019",
+    "claim_type": "ground_station_claim",
+    "input": "The ground station network (Svalbard, McMurdo, and Wallops) provides approximately 8-10 passes per day with total contact time of 80-100 minutes.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim: specific ground stations named, realistic pass count for a 3-station network, and reasonable daily contact time. No absolute guarantees."
+  },
+  {
+    "case_id": "orbit_comms_020",
+    "claim_type": "comms_window_claim",
+    "input": "The GEO satellite at 75°W longitude maintains continuous communication with the ground station via a 24/7 link with 99.9% annual availability based on link budget analysis with 6 dB margin.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "CommsGate",
+    "risk_label": "comms_claim",
+    "reason": "Valid comms claim for GEO (continuous contact is achievable at GEO) but claims 99.9% availability and 6 dB margin without providing the detailed link budget parameters. Need full budget to verify."
+  }
+]

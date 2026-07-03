@@ -1,0 +1,954 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ========================================
+   2026 Design System — OrbitGate v0.4
+   Modern Space Aesthetic
+   ======================================== */
+
+:root {
+  --radius: 0.75rem;
+  --space-cyan: #06b6d4;
+  --space-violet: #8b5cf6;
+  --space-sky: #0ea5e9;
+  --space-teal: #14b8a6;
+  --space-amber: #f59e0b;
+  --space-rose: #f43f5e;
+
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #0891b2;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --border: rgba(203, 213, 225, 0.6);
+  --input: rgba(203, 213, 225, 0.6);
+  --ring: #0891b2;
+  --chart-1: #0891b2;
+  --chart-2: #ef4444;
+  --chart-3: #d97706;
+  --chart-4: #0ea5e9;
+  --chart-5: #8b5cf6;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #0891b2;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: rgba(203, 213, 225, 0.6);
+  --sidebar-ring: #0891b2;
+}
+
+.dark {
+  /* Deep space navy — sophisticated, not pure black */
+  --background: #030712;
+  --foreground: #e2e8f0;
+  --card: #0c1222;
+  --card-foreground: #e2e8f0;
+  --popover: #0c1222;
+  --popover-foreground: #e2e8f0;
+  --primary: #06b6d4;
+  --primary-foreground: #030712;
+  --secondary: #111827;
+  --secondary-foreground: #e2e8f0;
+  --muted: #111827;
+  --muted-foreground: #94a3b8;
+  --accent: #111827;
+  --accent-foreground: #e2e8f0;
+  --destructive: #f43f5e;
+  --border: rgba(148, 163, 184, 0.08);
+  --input: rgba(148, 163, 184, 0.12);
+  --ring: #06b6d4;
+  --chart-1: #06b6d4;
+  --chart-2: #f43f5e;
+  --chart-3: #f59e0b;
+  --chart-4: #0ea5e9;
+  --chart-5: #a78bfa;
+  --sidebar: #0c1222;
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: #06b6d4;
+  --sidebar-primary-foreground: #030712;
+  --sidebar-accent: #111827;
+  --sidebar-accent-foreground: #e2e8f0;
+  --sidebar-border: rgba(148, 163, 184, 0.08);
+  --sidebar-ring: #06b6d4;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(6, 182, 212, 0.2) transparent;
+  }
+  .light *,
+  :root:not(.dark) * {
+    scrollbar-color: rgba(8, 145, 178, 0.15) transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', var(--font-geist-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Badge hover transition */
+@layer base {
+  [data-slot="badge"] {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  [data-slot="badge"]:hover {
+    transform: scale(1.03);
+  }
+}
+
+/* ========================================
+   2026 Scrollbar — Ultra-thin, subtle
+   ======================================== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.15);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.35);
+}
+
+.light .custom-scrollbar::-webkit-scrollbar-thumb,
+:root:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(8, 145, 178, 0.12);
+}
+.light .custom-scrollbar::-webkit-scrollbar-thumb:hover,
+:root:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(8, 145, 178, 0.25);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   Noise Texture — Ultra-fine grain
+   ======================================== */
+.noise-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.008;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 512px 512px;
+}
+.dark .noise-overlay::before {
+  opacity: 0.015;
+}
+
+/* ========================================
+   2026 Aurora Background System
+   ======================================== */
+
+/* Main content ambient glow — subtle mesh gradient from top */
+.main-radial-bg {
+  background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(8, 145, 178, 0.03) 0%, transparent 70%);
+}
+.dark .main-radial-bg {
+  background:
+    radial-gradient(ellipse 80% 40% at 30% 0%, rgba(6, 182, 212, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 70% 10%, rgba(139, 92, 246, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 100%, rgba(6, 182, 212, 0.02) 0%, transparent 70%);
+}
+
+/* Aurora background — animated mesh gradient for hero/feature sections */
+@keyframes aurora-drift {
+  0%, 100% {
+    background-position: 0% 50%, 100% 30%, 50% 80%, 80% 60%;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    background-position: 30% 20%, 70% 60%, 20% 40%, 50% 80%;
+    filter: hue-rotate(5deg);
+  }
+  50% {
+    background-position: 60% 70%, 30% 20%, 80% 50%, 20% 30%;
+    filter: hue-rotate(-3deg);
+  }
+  75% {
+    background-position: 80% 40%, 60% 80%, 40% 20%, 70% 50%;
+    filter: hue-rotate(2deg);
+  }
+}
+
+.aurora-bg {
+  background:
+    radial-gradient(ellipse 700px 400px at 20% 30%, rgba(6, 182, 212, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 75% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 300px at 50% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 80% 60%, rgba(20, 184, 166, 0.06) 0%, transparent 70%);
+  background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%;
+  animation: aurora-drift 45s ease-in-out infinite;
+}
+
+.dark .aurora-bg {
+  background:
+    radial-gradient(ellipse 700px 400px at 20% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 75% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 300px at 50% 80%, rgba(14, 165, 233, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 80% 60%, rgba(20, 184, 166, 0.05) 0%, transparent 70%);
+  background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%;
+  animation: aurora-drift 45s ease-in-out infinite;
+}
+
+.light .aurora-bg {
+  background:
+    radial-gradient(ellipse 700px 400px at 20% 30%, rgba(6, 182, 212, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 75% 20%, rgba(139, 92, 246, 0.04) 0%, transparent 70%);
+  background-size: 200% 200%, 200% 200%;
+  animation: aurora-drift 45s ease-in-out infinite;
+}
+
+/* Legacy nebula-bg alias → aurora */
+.nebula-bg {
+  background:
+    radial-gradient(ellipse 700px 400px at 20% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 75% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 300px at 50% 80%, rgba(14, 165, 233, 0.06) 0%, transparent 70%),
+    #030712;
+  background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+  animation: aurora-drift 45s ease-in-out infinite;
+}
+.dark .nebula-bg {
+  background:
+    radial-gradient(ellipse 700px 400px at 20% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 75% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 300px at 50% 80%, rgba(14, 165, 233, 0.06) 0%, transparent 70%),
+    #030712;
+  background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+  animation: aurora-drift 45s ease-in-out infinite;
+}
+.light .nebula-bg {
+  background: transparent;
+  animation: none;
+}
+
+/* ========================================
+   2026 Subtle Starfield — Minimal, not 90s
+   Single faint layer with no connection lines
+   ======================================== */
+.starfield {
+  position: relative;
+}
+.starfield::before,
+.starfield::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.starfield::before {
+  background-image:
+    radial-gradient(0.6px 0.6px at 120px 40px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(0.5px 0.5px at 300px 120px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(0.7px 0.7px at 500px 80px, rgba(255,255,255,0.25), transparent),
+    radial-gradient(0.5px 0.5px at 700px 200px, rgba(255,255,255,0.15), transparent),
+    radial-gradient(0.6px 0.6px at 900px 60px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(0.5px 0.5px at 1100px 160px, rgba(255,255,255,0.18), transparent),
+    radial-gradient(0.6px 0.6px at 1300px 90px, rgba(255,255,255,0.22), transparent),
+    radial-gradient(0.5px 0.5px at 150px 250px, rgba(6,182,212,0.15), transparent),
+    radial-gradient(0.6px 0.6px at 450px 280px, rgba(139,92,246,0.1), transparent),
+    radial-gradient(0.5px 0.5px at 800px 300px, rgba(255,255,255,0.2), transparent);
+  background-size: 1600px 400px;
+  animation: star-drift-1 120s linear infinite;
+  opacity: 0.3;
+}
+.starfield::after {
+  background-image:
+    radial-gradient(0.4px 0.4px at 80px 70px, rgba(255,255,255,0.2), transparent),
+    radial-gradient(0.5px 0.5px at 250px 30px, rgba(255,255,255,0.15), transparent),
+    radial-gradient(0.4px 0.4px at 420px 180px, rgba(6,182,212,0.08), transparent),
+    radial-gradient(0.5px 0.5px at 600px 100px, rgba(255,255,255,0.18), transparent),
+    radial-gradient(0.4px 0.4px at 850px 220px, rgba(139,92,246,0.06), transparent),
+    radial-gradient(0.5px 0.5px at 1050px 50px, rgba(255,255,255,0.12), transparent);
+  background-size: 1200px 300px;
+  animation: star-drift-2 180s linear infinite;
+  opacity: 0.15;
+}
+
+/* Extra starfield layer via inner div — even more subtle */
+.starfield-layer-3 {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(0.3px 0.3px at 100px 50px, rgba(255,255,255,0.15), transparent),
+    radial-gradient(0.3px 0.3px at 350px 150px, rgba(255,255,255,0.1), transparent),
+    radial-gradient(0.4px 0.4px at 600px 80px, rgba(255,255,255,0.12), transparent),
+    radial-gradient(0.3px 0.3px at 900px 200px, rgba(255,255,255,0.08), transparent);
+  background-size: 1000px 280px;
+  animation: star-drift-3 240s linear infinite;
+  opacity: 0.1;
+}
+
+@keyframes star-drift-1 {
+  from { background-position: 0 0; }
+  to { background-position: 1600px 400px; }
+}
+@keyframes star-drift-2 {
+  from { background-position: 0 0; }
+  to { background-position: -1200px 300px; }
+}
+@keyframes star-drift-3 {
+  from { background-position: 0 0; }
+  to { background-position: 1000px -280px; }
+}
+
+/* Light mode: hide starfield layers */
+.light .starfield::before,
+.light .starfield::after,
+.light .starfield-layer-3 {
+  opacity: 0 !important;
+}
+
+/* ========================================
+   2026 Glassmorphism — Modern, Refined
+   ======================================== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(40px) saturate(1.2);
+  -webkit-backdrop-filter: blur(40px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+}
+.glass-card-hover {
+  transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+}
+.glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(6, 182, 212, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Light mode: glass cards use clean white */
+.light .glass-card,
+:root:not(.dark) .glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+.light .glass-card-hover:hover,
+:root:not(.dark) .glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(6, 182, 212, 0.08);
+}
+
+/* Interactive glass card — subtle border accent on hover */
+.glass-card-interactive {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+.glass-card-interactive:hover {
+  border-color: rgba(6, 182, 212, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+.dark .glass-card-interactive:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* ========================================
+   2026 Gradient Text — Cyan → Violet
+   ======================================== */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6, #06b6d4);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+.text-gradient-emerald {
+  /* Legacy alias → now cyan-violet */
+  background: linear-gradient(135deg, #06b6d4, #22d3ee, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-emerald {
+  /* Legacy alias */
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6, #06b6d4);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 200% center; }
+}
+
+/* ========================================
+   2026 Soft Glow System
+   Diffused, ambient — not neon
+   ======================================== */
+.glow-cyan {
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.08), 0 0 80px rgba(6, 182, 212, 0.04);
+}
+
+.glow-violet {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.08), 0 0 80px rgba(139, 92, 246, 0.04);
+}
+
+.glow-amber {
+  box-shadow: 0 0 40px rgba(245, 158, 11, 0.08), 0 0 80px rgba(245, 158, 11, 0.04);
+}
+
+.glow-rose {
+  box-shadow: 0 0 40px rgba(244, 63, 94, 0.08), 0 0 80px rgba(244, 63, 94, 0.04);
+}
+
+/* Legacy emerald glow aliases → cyan */
+.glow-emerald {
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.08), 0 0 80px rgba(6, 182, 212, 0.04);
+}
+
+.glow-text-cyan {
+  text-shadow: 0 0 30px rgba(6, 182, 212, 0.15), 0 0 60px rgba(6, 182, 212, 0.05);
+}
+
+/* Legacy text glow aliases */
+.glow-text-emerald {
+  text-shadow: 0 0 30px rgba(6, 182, 212, 0.15), 0 0 60px rgba(6, 182, 212, 0.05);
+}
+
+.glow-text-amber {
+  text-shadow: 0 0 30px rgba(245, 158, 11, 0.15), 0 0 60px rgba(245, 158, 11, 0.05);
+}
+
+/* Animated border pulse — soft, ambient */
+@keyframes border-glow-cyan {
+  0%, 100% {
+    border-color: rgba(6, 182, 212, 0.1);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.03);
+  }
+  50% {
+    border-color: rgba(6, 182, 212, 0.2);
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.06);
+  }
+}
+
+.border-glow-emerald {
+  /* Legacy alias → now cyan */
+  animation: border-glow-cyan 4s ease-in-out infinite;
+}
+
+.border-glow-cyan {
+  animation: border-glow-cyan 4s ease-in-out infinite;
+}
+
+/* ========================================
+   2026 Animations — Smooth, Refined
+   ======================================== */
+
+/* Orbit animations — kept for hero decor but slower, more elegant */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes orbit-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-orbit-slow {
+  animation: orbit-spin 60s linear infinite;
+}
+.animate-orbit {
+  animation: orbit-spin 30s linear infinite;
+}
+.animate-orbit-reverse {
+  animation: orbit-spin-reverse 40s linear infinite;
+}
+
+/* Soft pulse — for live indicators */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Float — subtle, 4px not 10px */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.float-subtle {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Fade in up */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+@keyframes fade-in-up-stagger {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up-stagger {
+  animation: fade-in-up-stagger 0.5s ease-out both;
+}
+
+/* Twinkle — for stars */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+.animate-twinkle {
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+/* Glow pulse — soft box-shadow */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.05), 0 0 40px rgba(6, 182, 212, 0.02); }
+  50% { box-shadow: 0 0 30px rgba(6, 182, 212, 0.1), 0 0 60px rgba(6, 182, 212, 0.04); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* Border glow */
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(6, 182, 212, 0.1); box-shadow: 0 0 20px rgba(6, 182, 212, 0.02); }
+  50% { border-color: rgba(6, 182, 212, 0.25); box-shadow: 0 0 40px rgba(6, 182, 212, 0.06); }
+}
+.animate-border-glow {
+  animation: border-glow 4s ease-in-out infinite;
+}
+
+/* Header dot — soft pulse instead of harsh shimmer */
+@keyframes header-pulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.header-dot-shimmer {
+  animation: header-pulse 3s ease-in-out infinite;
+}
+
+/* Verify button pulse */
+.verify-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Badge hover */
+.badge-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.badge-hover:hover {
+  transform: scale(1.03);
+}
+
+/* ========================================
+   2026 Shimmer — Subtle light sweep
+   ======================================== */
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 25%,
+    rgba(6, 182, 212, 0.03) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-sweep 3s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.03), transparent);
+  animation: shimmer-sweep-anim 4s ease-in-out infinite;
+}
+@keyframes shimmer-sweep-anim {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Skeleton shimmer */
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 2s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ========================================
+   2026 Space Divider — Clean, Minimal
+   ======================================== */
+.space-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.space-divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.12), rgba(139, 92, 246, 0.06), transparent);
+}
+.space-divider::after {
+  content: "";
+  position: relative;
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.2);
+}
+
+/* ========================================
+   2026 Footer Border
+   ======================================== */
+.footer-gradient-border {
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.08), transparent) 1;
+}
+.dark .footer-gradient-border {
+  border-image: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.1), transparent) 1;
+}
+
+/* Section header gradient bottom border */
+.section-gradient-border {
+  position: relative;
+}
+.section-gradient-border::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.1), transparent);
+  border-radius: 1px;
+}
+
+/* ========================================
+   2026 Nav Link — Cyan accent
+   ======================================== */
+.nav-link-animated {
+  position: relative;
+}
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+  transition: width 0.3s ease, left 0.3s ease;
+  border-radius: 1px;
+}
+.nav-link-animated:hover::after {
+  width: 100%;
+  left: 0%;
+}
+
+/* ========================================
+   2026 Micro-Interactions
+   ======================================== */
+
+/* Button glow — soft radial, not neon */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-glow:hover::after {
+  opacity: 1;
+}
+.btn-glow:active {
+  transform: scale(0.98);
+}
+
+/* Card hover lift */
+.card-hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.dark .card-hover-lift:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Card tilt on hover */
+.tilt-card {
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+}
+.tilt-card:hover {
+  transform: perspective(1000px) rotateX(0.5deg) rotateY(-0.5deg) scale(1.005);
+}
+
+/* Ripple button */
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.ripple-btn:active::after {
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+/* Focus ring glow */
+.focus-glow:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2), 0 0 30px rgba(6, 182, 212, 0.05);
+}
+
+/* ========================================
+   2026 Status Indicators
+   ======================================== */
+
+/* Pulse ring for live indicators */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* Status dot pulse variants */
+@keyframes dot-pulse-cyan {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(6,182,212,0); }
+}
+@keyframes dot-pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(6,182,212,0); }
+}
+@keyframes dot-pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(239,68,68,0); }
+}
+@keyframes dot-pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(245,158,11,0); }
+}
+.dot-pulse-green,
+.dot-pulse-cyan { animation: dot-pulse-cyan 2s ease-in-out infinite; }
+.dot-pulse-red { animation: dot-pulse-red 2s ease-in-out infinite; }
+.dot-pulse-amber { animation: dot-pulse-amber 2s ease-in-out infinite; }
+
+/* ========================================
+   2026 Scroll Progress Bar
+   ======================================== */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #06b6d4, #8b5cf6, #06b6d4);
+  background-size: 200% 100%;
+  z-index: 100;
+  transition: width 0.1s linear;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+/* ========================================
+   2026 Typography
+   ======================================== */
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Number counter animation */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.count-animate {
+  display: inline-block;
+  animation: count-up 0.3s ease-out;
+}
+
+/* Typing cursor blink */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.typing-cursor::after {
+  content: '|';
+  animation: cursor-blink 1s step-end infinite;
+  color: #06b6d4;
+  font-weight: bold;
+}
+
+/* ========================================
+   2026 Accessibility: Prefers-Reduced-Motion
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .pulse-ring::before,
+  .shimmer-sweep::after,
+  .gradient-text-emerald,
+  .text-gradient-cyan,
+  .text-gradient-emerald,
+  .float-subtle,
+  .skeleton-shimmer,
+  .typing-cursor::after,
+  .dot-pulse-green,
+  .dot-pulse-cyan,
+  .dot-pulse-red,
+  .dot-pulse-amber {
+    animation: none !important;
+  }
+  .gradient-text-emerald,
+  .text-gradient-cyan,
+  .text-gradient-emerald {
+    background-position: 0% center !important;
+  }
+  .typing-cursor::after {
+    content: none !important;
+  }
+}

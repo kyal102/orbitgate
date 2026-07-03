@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "orbit_power_001",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite's power system provides 500 W from solar arrays and has a 50 Wh battery. The payload requires 800 W continuously, which is fully supported by the power system.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget: payload load (800 W) exceeds solar array generation (500 W) by 300 W. Even with battery support, the satellite cannot sustain 800 W continuous load. Battery would deplete in 10 minutes (50 Wh / 300 W excess = 0.167 hours)."
+  },
+  {
+    "case_id": "orbit_power_002",
+    "claim_type": "power_budget_claim",
+    "input": "With 200 W solar generation and a 100 Wh battery, the satellite can continuously operate a 1 kW radar payload without interruption.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget: 1 kW (1000 W) payload vs 200 W generation. Deficit of 800 W would drain the 100 Wh battery in 7.5 minutes. Cannot sustain continuous operation."
+  },
+  {
+    "case_id": "orbit_power_003",
+    "claim_type": "power_budget_claim",
+    "input": "The spacecraft generates 150 W from body-mounted solar cells and has 30 Wh batteries. All 12 subsystems requiring 25 W each (300 W total) can operate simultaneously during eclipse.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget during eclipse: 300 W load vs 150 W generation, relying on 30 Wh batteries during eclipse (~35 min for LEO). Battery capacity supports only 300 W for 6 minutes during eclipse."
+  },
+  {
+    "case_id": "orbit_power_004",
+    "claim_type": "power_budget_claim",
+    "input": "The 3U CubeSat with 10 W solar generation and 5 Wh battery can power a 50 W propulsion system continuously throughout the mission.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Impossible power budget: 50 W propulsion system vs 10 W solar generation. Deficit of 40 W drains 5 Wh battery in 7.5 minutes. Cannot sustain continuous operation."
+  },
+  {
+    "case_id": "orbit_power_005",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite has unlimited power capacity and can support any payload without power constraints.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Unlimited/infinite power claim: no satellite has unlimited power. All spacecraft have finite solar array area, battery capacity, and power regulation limits. This is physically impossible."
+  },
+  {
+    "case_id": "orbit_power_006",
+    "claim_type": "power_budget_claim",
+    "input": "Power is not a concern for this mission as the satellite generates infinite energy from its solar panels.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Infinite energy claim: solar panels have finite efficiency and area. Energy generation is limited by solar flux, panel degradation, and eclipse periods. 'Infinite energy' violates thermodynamics."
+  },
+  {
+    "case_id": "orbit_power_007",
+    "claim_type": "power_budget_claim",
+    "input": "The battery system provides limitless power storage, so the satellite never experiences power shortages regardless of load.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Limitless battery claim: all batteries have finite energy density (Wh/kg) and capacity. No battery technology provides limitless storage. Physically impossible claim."
+  },
+  {
+    "case_id": "orbit_power_008",
+    "claim_type": "power_budget_claim",
+    "input": "With the new power management system, the satellite has an effectively infinite power budget that can accommodate any future payload additions.",
+    "expected_decision": "BLOCK",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Effectively infinite power budget: even advanced power management cannot create energy. Power budgets are constrained by generation capacity and storage. Cannot guarantee support for 'any' future payload."
+  },
+  {
+    "case_id": "orbit_power_009",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite payload consumes 200 W continuously and operates 24/7 in a 550 km LEO orbit.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget details: payload power consumption is specified (200 W) but no information about solar array generation capacity, battery capacity, or eclipse duration. Cannot verify feasibility."
+  },
+  {
+    "case_id": "orbit_power_010",
+    "claim_type": "power_budget_claim",
+    "input": "During eclipse periods, the satellite switches to battery power to maintain all subsystems at full operational capacity.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget: claim describes eclipse power strategy but provides no quantitative data on generation, load, battery capacity, or eclipse duration. Cannot verify."
+  },
+  {
+    "case_id": "orbit_power_011",
+    "claim_type": "power_budget_claim",
+    "input": "The thermal control subsystem heaters require 45 W during cold case conditions to maintain operational temperatures.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget context: heater power requirement is specified (45 W) but no total budget, generation capacity, or battery margins are provided. Need full power budget to verify."
+  },
+  {
+    "case_id": "orbit_power_012",
+    "claim_type": "power_budget_claim",
+    "input": "The communication system draws 30 W during transmit and 5 W during receive, with a 10% duty cycle.",
+    "expected_decision": "EVIDENCE_REQUIRED",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Missing power budget: individual subsystem power is detailed but no total power budget, solar array capacity, or battery information is provided. Cannot assess overall feasibility."
+  },
+  {
+    "case_id": "orbit_power_013",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite has 500 W solar array generation at BOL (Begin of Life) in sunlight, with a 30 Ah battery at 28 V (840 Wh). Total average load is 350 W (300 W in sunlight, 400 W in eclipse). Eclipse duration is 35 minutes per 95-minute orbit. Power budget has 15% margin.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Valid power budget: sunlight generation (500 W) exceeds sunlight load (300 W) with 200 W surplus for battery charging. Eclipse load (400 W × 35/60 h = 233 Wh) is within battery capacity (840 Wh). EOL margin noted at 15%."
+  },
+  {
+    "case_id": "orbit_power_014",
+    "claim_type": "power_budget_claim",
+    "input": "The 6U CubeSat generates 40 W BOL from deployed solar panels with a 30 Wh battery. Payload draws 10 W continuously. ADCS draws 5 W average. Comms draws 3 W average. Total load 18 W with 22 W margin for battery charging and EOL degradation.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Valid power budget for 6U CubeSat: 40 W generation vs 18 W load leaves 22 W surplus. 30 Wh battery easily covers eclipse load (18 W × 35 min = 10.5 Wh). Reasonable margins."
+  },
+  {
+    "case_id": "orbit_power_015",
+    "claim_type": "power_budget_claim",
+    "input": "GEO satellite with 10 kW solar array (BOL), 100 Ah 48 V battery (4.8 kWh). Payload: 3 kW. Bus: 2 kW average. Eclipses occur 45 days/year around equinoxes, max 72 minutes. During eclipse, 5 kW load is supported by battery with 40% depth of discharge remaining.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Valid GEO power budget: 10 kW generation vs 5 kW load. Eclipse energy: 5 kW × 1.2 h = 6 kWh per eclipse. Battery 4.8 kWh at 60% DoD = 2.88 kWh usable, which covers partial eclipse or load is reduced. Detailed analysis provided."
+  },
+  {
+    "case_id": "orbit_power_016",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite generates exactly 300 W and the payload requires exactly 300 W, leaving zero margin for EOL degradation, pointing losses, or array contamination.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: zero power margin. While the budget technically balances, there is no margin for solar array degradation (typically 2-3% per year), off-pointing losses, or temperature effects. Risky design."
+  },
+  {
+    "case_id": "orbit_power_017",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite power system provides 0 W generation with a 0 Wh battery, and the payload requires 0 W. This is a passive ballistic reentry vehicle with no powered systems.",
+    "expected_decision": "ALLOW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: zero power budget for an unpowered object. If the satellite truly has no powered systems (passive reentry vehicle), then 0 W generation, 0 Wh battery, and 0 W load is internally consistent."
+  },
+  {
+    "case_id": "orbit_power_018",
+    "claim_type": "power_budget_claim",
+    "input": "Solar array output varies from 520 W at BOL to 416 W at EOL (20% degradation over 15-year mission). Average load is 400 W with 4% margin at EOL.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: only 4% margin at EOL (416 W vs 400 W = 16 W margin). Industry standard is typically 10-15% margin at EOL. 4% is very tight and leaves no room for unexpected loads or additional degradation."
+  },
+  {
+    "case_id": "orbit_power_019",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite uses a nuclear RTG providing 300 W thermal converted to 50 W electrical with 16.7% efficiency, powering a 45 W payload continuously for 14 years without degradation.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: RTG power claim. RTGs do degrade over time (Pu-238 half-life is 87.7 years, so 14 years gives ~89% of initial power). Claim of 'without degradation' is slightly inaccurate but the budget margin (50 W vs 45 W) may compensate."
+  },
+  {
+    "case_id": "orbit_power_020",
+    "claim_type": "power_budget_claim",
+    "input": "The satellite has 1 MW of power available from its solar arrays and can support a directed energy weapon payload.",
+    "expected_decision": "NEEDS_REVIEW",
+    "expected_gate": "PowerGate",
+    "risk_label": "power_budget_claim",
+    "reason": "Edge case: 1 MW is orders of magnitude beyond typical satellite solar arrays (largest operational is ~100 kW on ISS). While not physically impossible for a very large structure, this requires extraordinary verification and may be out of scope for normal satellite operations."
+  }
+]
