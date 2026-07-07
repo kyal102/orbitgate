@@ -2,7 +2,7 @@
 
 # OrbitGate
 
-![CI](https://img.shields.io/badge/CI-build%20checked-brightgreen) ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![Bun](https://img.shields.io/badge/runtime-Bun-blue) ![license](https://img.shields.io/badge/license-MIT-green)
+[![CI](https://github.com/kyal102/orbitgate/actions/workflows/ci.yml/badge.svg)](https://github.com/kyal102/orbitgate/actions/workflows/ci.yml) ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![Bun](https://img.shields.io/badge/runtime-Bun-blue) ![license](https://img.shields.io/badge/license-MIT-green)
 
 **A public local demo for deterministic verification of orbital and satellite claims.**
 
